@@ -1,4 +1,7 @@
-FROM python:2.7-alpine3.10
+ARG ALPINE_VER
+ARG LIBTORRENT_VER
+FROM wiserain/libtorrent:${LIBTORRENT_VER}-alpine${ALPINE_VER} AS libtorrent
+FROM python:2.7-alpine${ALPINE_VER}
 LABEL maintainer="wiserain"
 
 # https://discordapp.com/channels/590210675628834846/619765438837948456/655753524378075147
@@ -42,12 +45,12 @@ RUN \
 		libxml2-dev libxslt-dev \
 		`# Pillow` \
 		jpeg-dev zlib-dev && \
-	echo "**** install sjva ****" && \
-	git clone https://github.com/soju6jan/SJVA2 /app && \
-	cd /app && \
-	pip install -r requirements.txt && \
+	echo "**** install python packages ****" && \
+	pip install -r https://raw.githubusercontent.com/soju6jan/SJVA2/master/requirements.txt && \
 	echo "**** install runtime packages ****" && \
 	apk add --no-cache \
+		`# torrent_info` \
+		libstdc++ boost-python2 boost-system \
 		libxml2 \
 		libxslt \
 		jpeg && \
@@ -57,6 +60,13 @@ RUN \
 		/tmp/* \
 		/root/.cache \
 		/var/cache/apk/*
+
+# copy libtorrent libs
+COPY --from=libtorrent /libtorrent-py2/usr/lib/ /usr/lib/
+
+RUN \
+	echo "**** install sjva ****" && \
+	git clone https://github.com/soju6jan/SJVA2 /app
 
 COPY docker_start.sh /app
 RUN chmod +x /app/docker_start.sh
