@@ -1,6 +1,6 @@
 ARG ALPINE_VER
 ARG LIBTORRENT_VER
-FROM wiserain/libtorrent:${LIBTORRENT_VER}-alpine${ALPINE_VER} AS libtorrent
+FROM wiserain/libtorrent:${LIBTORRENT_VER}-alpine${ALPINE_VER}-py2 AS libtorrent
 FROM python:2.7-alpine${ALPINE_VER}
 LABEL maintainer="wiserain"
 
@@ -62,7 +62,7 @@ RUN \
 		/var/cache/apk/*
 
 # copy libtorrent libs
-COPY --from=libtorrent /libtorrent-py2/usr/lib/ /usr/lib/
+COPY --from=libtorrent /libtorrent-build/usr/lib/ /usr/lib/
 
 RUN \
 	echo "**** install sjva ****" && \
