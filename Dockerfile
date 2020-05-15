@@ -66,7 +66,7 @@ COPY --from=libtorrent /libtorrent-build/usr/lib/ /usr/lib/
 
 RUN \
 	echo "**** install sjva ****" && \
-	git clone https://github.com/soju6jan/SJVA2 /app
+	git clone https://github.com/soju6jan/SJVA2 /app --depth=1
 
 COPY docker_start.sh /app
 RUN chmod +x /app/docker_start.sh
