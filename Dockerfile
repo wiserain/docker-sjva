@@ -19,7 +19,6 @@ RUN \
 	apk add --no-cache \
 		ffmpeg \
 		git \
-		vnstat \
 		redis \
 		dos2unix \
 		fuse \
