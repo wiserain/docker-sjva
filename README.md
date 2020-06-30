@@ -21,6 +21,7 @@ services:
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
+      - TZ=Asia/Seoul
       - FB_BASEURL=/filebrowser               # Optional
     # privileged: true                        # only when rclone mount used
     sysctls:
