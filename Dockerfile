@@ -29,6 +29,7 @@ RUN \
         `# custom apks` \
         bash \
         procps \
+        sqlite \
         coreutils \
         findutils \
         mediainfo \
@@ -70,6 +71,8 @@ RUN \
 
 COPY docker_start.sh /app
 RUN chmod +x /app/docker_start.sh
+
+HEALTHCHECK --interval=30s --timeout=30s --start-period=50s --retries=3 CMD [ "curl 127.0.0.1:$(sqlite3 /app/data/db/sjva.db "select value from system_setting where key='port'")/version || exit 1" ]
 
 WORKDIR /app
 EXPOSE 9998 9999
