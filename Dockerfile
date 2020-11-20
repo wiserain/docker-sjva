@@ -33,23 +33,41 @@ RUN \
         coreutils \
         findutils \
         mediainfo \
-        jq && \
+        jq \
+        wget && \
     sed -i 's/#user_allow_other/user_allow_other/' /etc/fuse.conf && \
     echo "**** install build packages ****" && \
     apk add --no-cache --virtual build-deps \
+        build-base \
         `# pycrypto` \
-        gcc g++ make libffi-dev openssl-dev libc-dev \
+        libffi-dev openssl-dev libc-dev \
         `# psutil` \
         linux-headers  \
         `# lxml` \
         libxml2-dev libxslt-dev \
         `# Pillow` \
-        jpeg-dev zlib-dev && \
+        jpeg-dev zlib-dev \
+        `# vnStat` \
+        sqlite-dev \
+        gd-dev \
+        libjpeg-turbo-dev \
+        libpng-dev && \
     echo "**** install python packages ****" && \
     pip install -r https://raw.githubusercontent.com/soju6jan/SJVA2/master/requirements.txt && \
     pip install python-qbittorrent transmissionrpc synolopy && \
+    echo "**** install vnStat ****" && \
+    cd $(mktemp -d) && \
+    wget https://humdi.net/vnstat/vnstat-2.6.tar.gz -O - | tar -xzf - --strip-components=1 && \
+    ./configure \
+        --prefix=/usr \
+        --sysconfdir=/etc \
+        --mandir=/usr/share/man \
+        --infodir=/usr/share/info && \
+    make -j$(nproc) && make install && \
     echo "**** install runtime packages ****" && \
-    apk add --no-cache \
+    apk add --no-cache \    
+        `# vnStat` \
+        libgd \
         `# torrent_info` \
         libstdc++ boost-python2 boost-system \
         libxml2 \
