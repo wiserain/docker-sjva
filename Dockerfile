@@ -46,28 +46,12 @@ RUN \
         `# lxml` \
         libxml2-dev libxslt-dev \
         `# Pillow` \
-        jpeg-dev zlib-dev \
-        `# vnStat` \
-        sqlite-dev \
-        gd-dev \
-        libjpeg-turbo-dev \
-        libpng-dev && \
+        jpeg-dev zlib-dev && \
     echo "**** install python packages ****" && \
     pip install -r https://raw.githubusercontent.com/soju6jan/SJVA2/master/requirements.txt && \
     pip install python-qbittorrent transmissionrpc synolopy && \
-    echo "**** install vnStat ****" && \
-    cd $(mktemp -d) && \
-    wget https://humdi.net/vnstat/vnstat-2.6.tar.gz -O - | tar -xzf - --strip-components=1 && \
-    ./configure \
-        --prefix=/usr \
-        --sysconfdir=/etc \
-        --mandir=/usr/share/man \
-        --infodir=/usr/share/info && \
-    make -j$(nproc) && make install && \
     echo "**** install runtime packages ****" && \
-    apk add --no-cache \    
-        `# vnStat` \
-        libgd \
+    apk add --no-cache \
         `# torrent_info` \
         libstdc++ boost-python2 boost-system \
         libxml2 \
