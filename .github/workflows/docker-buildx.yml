@@ -94,7 +94,7 @@ jobs:
             Image: ${{ env.DOCKERHUB_USER }}/${{ env.DOCKERHUB_REPO }}
             Tags:
               - testing
-              - testing-br-${{ steps.vars.outputs.github_branch }}
+              - testing-${{ steps.vars.outputs.github_branch }}
       - 
         name: Buildx
         if: (github.event_name != 'push' || github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main') && (github.event_name != 'pull_request')
