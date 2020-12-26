@@ -19,6 +19,8 @@ ENV SJVA_RUNNING_TYPE "docker"
 ENV RCLONE_CONFIG=/app/data/db/rclone.conf
 ENV TZ=Asia/Seoul
 
+COPY requirements.txt /tmp/
+
 RUN \
     echo "**** install frolvlad/alpine-python2 ****" && \
     apk add --no-cache python2 && \
@@ -59,8 +61,7 @@ RUN \
         `# Pillow` \
         jpeg-dev zlib-dev && \
     echo "**** install python packages ****" && \
-    pip install -r https://raw.githubusercontent.com/soju6jan/SJVA2/master/requirements.txt && \
-    pip install python-qbittorrent transmissionrpc synolopy && \
+    pip install -r /tmp/requirements.txt && \
     echo "**** install runtime packages ****" && \
     apk add --no-cache \
         `# torrent_info` \
