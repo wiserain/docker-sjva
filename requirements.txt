@@ -58,7 +58,7 @@ pycparser==2.19           # via -r requirements.in, cffi
 pycrypto==2.6.1           # via -r requirements.in
 python-dateutil==2.8.0    # via -r requirements.in, alembic, guessit
 python-editor==1.0.4      # via -r requirements.in, alembic
-python-engineio==3.5.1    # via -r requirements.in, python-socketio
+python-engineio==3.8.2.post1  # via -r requirements.in, python-socketio
 python-qbittorrent==0.4.2  # via -r requirements.in
 python-socketio==3.1.2    # via -r requirements.in, flask-socketio
 pytz==2019.1              # via -r requirements.in, apscheduler, celery, flask-restful, tzlocal
