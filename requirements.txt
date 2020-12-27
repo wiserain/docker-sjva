@@ -9,7 +9,7 @@ Flask==1.0.2
 Flask-Login==0.4.1
 Flask-Migrate==2.4.0
 Flask-SocketIO==3.3.2
-Flask-SQLAlchemy==2.3.2
+Flask-SQLAlchemy==2.4.4
 funcsigs==1.0.2
 futures==3.2.0
 gevent==1.4.0
