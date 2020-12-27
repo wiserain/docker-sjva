@@ -15,7 +15,7 @@ ENV PYTHONPATH "/app"
 ENV SJVA_RUNNING_TYPE "docker"
 ENV TZ=Asia/Seoul
 
-COPY requirements.txt /tmp/requirements.in
+COPY requirements.txt /tmp/
 
 RUN \
     echo "**** install core packages ****" && \
@@ -50,9 +50,6 @@ RUN \
         `# Pillow` \
         jpeg-dev zlib-dev && \
     echo "**** install python packages ****" && \
-    pip install pip-tools && \
-    pip-compile /tmp/requirements.in -o /tmp/requirements.txt && \
-    pip uninstall -y pip-tools && \
     pip install -r /tmp/requirements.txt && \
     echo "**** install runtime packages ****" && \
     apk add --no-cache \
