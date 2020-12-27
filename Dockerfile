@@ -15,7 +15,7 @@ ENV PYTHONPATH "/app"
 ENV SJVA_RUNNING_TYPE "docker"
 ENV TZ=Asia/Seoul
 
-COPY requirements.in /tmp/
+COPY requirements.txt /tmp/requirements.in
 
 RUN \
     echo "**** install core packages ****" && \
