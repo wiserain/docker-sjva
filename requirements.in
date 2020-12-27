@@ -53,7 +53,7 @@ celery[redis]
 mock
 discord-webhook
     # via https://raw.githubusercontent.com/soju6jan/SJVA2/master/requirements.txt
-rebulk<=2.0.1
+rebulk<3.0.2
     # to ensure guessit working with python2.7
 python-qbittorrent
 transmissionrpc
