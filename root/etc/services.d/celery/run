@@ -1,0 +1,15 @@
+#!/usr/bin/with-contenv bash
+
+. /app/export.sh
+
+if [ "${USE_CELERY}" == "true" ]; then
+	echo "[services.d] running celery with ${CELERY_WORKER_COUNT} workers"	
+	# # as root
+	# export C_FORCE_ROOT='true'
+	# exec python -OO /usr/bin/celery -A sjva.celery \
+	# 	worker -c${CELERY_WORKER_COUNT} --loglevel=info
+
+	# as root but with uid gid
+	exec python -OO /usr/bin/celery -A sjva.celery \
+		worker -c${CELERY_WORKER_COUNT} --loglevel=info --uid=${PUID:-911} --gid=${PGID:-911}
+fi

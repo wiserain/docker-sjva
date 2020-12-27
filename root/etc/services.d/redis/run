@@ -1,0 +1,9 @@
+#!/usr/bin/with-contenv bash
+
+. /app/export.sh
+
+if [ "${USE_CELERY}" == "true" ]; then
+	echo "[services.d] running redis-server@${REDIS_PORT}"
+	exec s6-setuidgid abc \
+		redis-server --port ${REDIS_PORT} > /dev/null 2>&1
+fi
