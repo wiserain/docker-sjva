@@ -52,7 +52,7 @@ RUN \
     echo "**** install build packages ****" && \
     apk add --no-cache --virtual build-deps \
         build-base python2-dev musl-dev \
-        `# pycrypto` \
+        `# pycryptodome` \
         libffi-dev openssl-dev libc-dev \
         `# psutil` \
         linux-headers  \
