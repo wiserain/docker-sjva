@@ -54,10 +54,11 @@ RUN \
         py3-gevent \
         py3-lxml \
         py3-multidict \
+        py3-pillow \
         py3-psutil \
         py3-pycryptodome \
         py3-yarl && \
-    pip install -r /tmp/requirements.txt --ignore-installed && \
+    pip install -r /tmp/requirements.txt && \
     curl -fsSL https://filebrowser.org/get.sh | bash && \
     curl -fsSL https://raw.githubusercontent.com/wiserain/rclone/mod/install.sh | bash && \
     echo "**** cleanup ****" && \
