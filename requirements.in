@@ -30,7 +30,7 @@ Pillow
 PlexAPI<4.0.0                   # 3.6.0 is the last known working version with python2.7
 psutil>=5.6.6                   # via dependabot
 pycparser
-pycrypto
+pycryptodome
 python-dateutil
 python-editor
 python-engineio<=3.13.2
