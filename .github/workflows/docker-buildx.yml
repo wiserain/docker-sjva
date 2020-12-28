@@ -7,7 +7,7 @@ on:
     - cron: "0 21 * * 5"
   push:
     branches:
-      - 'master'
+      - 'testing-py3'
   pull_request:
 
 env:
@@ -44,7 +44,7 @@ jobs:
             .
           CID=$(docker run -d ${{ env.DOCKERHUB_USER }}/${{ env.DOCKERHUB_REPO }}:testing)
           docker rm -f $CID
-          echo ::set-output name=app_ver::0.2
+          echo ::set-output name=app_ver::py3
           echo ::set-output name=github_desc::$(curl -sX GET https://api.github.com/repos/${GITHUB_REPOSITORY} | jq -r .description)
           echo ::set-output name=github_branch::${GITHUB_REF#refs/heads/}
       - 
@@ -77,7 +77,7 @@ jobs:
         uses: ilteoood/docker_buildx@1.1.0
         with:
           imageName: ${{ env.DOCKERHUB_USER }}/${{ env.DOCKERHUB_REPO }}
-          tag: latest,latest-${{ steps.vars.outputs.app_ver }}
+          tag: testing,testing-${{ steps.vars.outputs.app_ver }}
           dockerFile: Dockerfile
           publish: true
           platform: linux/amd64,linux/arm/v7,linux/arm64
@@ -102,5 +102,5 @@ jobs:
           description: |
             Image: ${{ env.DOCKERHUB_USER }}/${{ env.DOCKERHUB_REPO }}
             Tags:
-              - latest
-              - latest-${{ steps.vars.outputs.app_ver }}
+              - testing
+              - testing-${{ steps.vars.outputs.app_ver }}

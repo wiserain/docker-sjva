@@ -3,14 +3,14 @@ updates:
 
   # Maintain dependencies for GitHub Actions
   - package-ecosystem: "github-actions"
-    target-branch: "master"
+    target-branch: "testing-py3"
     directory: "/"
     schedule:
       interval: "daily"
 
   # Maintain dependencies for python
   - package-ecosystem: "pip"
-    target-branch: "master"
+    target-branch: "testing-py3"
     directory: "/"
     schedule:
       interval: "daily"

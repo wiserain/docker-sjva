@@ -13,14 +13,14 @@ do
     chmod 777 .
 
     if [ ! -f "./data/db/sjva.db" ] ; then
-        python -OO sjva.py 0 ${COUNT} init_db
+        python sjva.py 0 ${COUNT} init_db
     fi
 
     if [ "${USE_CELERY}" == "true" ] ; then
 		[ "${COUNT}" != 0 ] && s6-svc -r /var/run/s6/services/celery
-        python -OO sjva.py 0 ${COUNT}
+        python sjva.py 0 ${COUNT}
     else
-        python -OO sjva.py 0 ${COUNT} no_celery
+        python sjva.py 0 ${COUNT} no_celery
     fi
     
     RESULT=$?
