@@ -54,6 +54,7 @@ RUN \
         py3-gevent \
         py3-lxml \
         py3-multidict \
+        py3-pillow \
         py3-psutil \
         py3-pycryptodome \
         py3-yarl && \
