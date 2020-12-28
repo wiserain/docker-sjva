@@ -41,7 +41,7 @@ RUN \
     echo "**** install build packages ****" && \
     apk add --no-cache --virtual build-deps \
         build-base \
-        `# pycrypto` \
+        `# pycryptodome` \
         libffi-dev openssl-dev libc-dev \
         `# psutil` \
         linux-headers  \
