@@ -6,6 +6,7 @@ pillow==7.1.2
 psutil==5.7.0
 pycryptodome==3.9.7
 yarl==1.4.2
+idna==2.9
     # via apk
 apscheduler
 celery

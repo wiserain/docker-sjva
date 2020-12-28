@@ -36,7 +36,7 @@ googleapis-common-protos==1.52.0  # via google-api-core
 greenlet==0.4.15          # via gevent
 guessit==3.2.0            # via -r requirements.in
 httplib2==0.18.1          # via google-api-python-client, google-auth-httplib2, oauth2client
-idna==2.10                # via requests, yarl
+idna==2.9                 # via requests, yarl
 itsdangerous==1.1.0       # via flask
 jinja2==2.11.2            # via flask
 kombu==5.0.2              # via celery
