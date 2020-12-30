@@ -5,7 +5,7 @@ cffi
 chardet
 Click
 enum34
-Flask==1.0.2
+Flask==1.1.2
 Flask-Login
 Flask-Migrate
 Flask-SocketIO<=4.3.1
