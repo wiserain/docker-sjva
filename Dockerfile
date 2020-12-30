@@ -1,5 +1,5 @@
 ARG ALPINE_VER=3.10
-ARG LIBTORRENT_VER=2.0.0
+ARG LIBTORRENT_VER=latest
 FROM wiserain/libtorrent:${LIBTORRENT_VER}-alpine${ALPINE_VER}-py2 AS libtorrent
 FROM python:2.7-alpine${ALPINE_VER}
 LABEL maintainer="wiserain"
