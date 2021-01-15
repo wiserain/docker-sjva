@@ -1,4 +1,4 @@
-ARG ALPINE_VER=3.11
+ARG ALPINE_VER=3.10
 ARG LIBTORRENT_VER=latest
 FROM wiserain/libtorrent:${LIBTORRENT_VER}-alpine${ALPINE_VER}-py2 AS libtorrent
 FROM ghcr.io/linuxserver/baseimage-alpine:${ALPINE_VER}
@@ -55,12 +55,14 @@ RUN \
         `# pycryptodome` \
         libffi-dev openssl-dev libc-dev \
         `# psutil` \
-        linux-headers  \
-        `# lxml` \
-        libxml2-dev libxslt-dev \
-        `# Pillow` \
-        jpeg-dev zlib-dev && \
+        linux-headers && \
     echo "**** install python packages ****" && \
+    apk add --no-cache \
+        py2-gevent \
+        py2-greenlet \
+        py2-idna \
+        py2-lxml \
+        py2-pillow && \
     pip install -r /tmp/requirements.txt && \
     echo "**** install runtime packages ****" && \
     apk add --no-cache \
