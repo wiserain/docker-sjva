@@ -21,7 +21,7 @@ guppy
 idna==2.8                       # alpine 3.10
 itsdangerous
 Jinja2
-lxml==4.3.4                     # alpine 3.10
+lxml==4.6.2                     # alpine 3.10
 Mako
 Markdown
 MarkupSafe
