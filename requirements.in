@@ -18,7 +18,7 @@ google-api-python-client
 greenlet==0.4.15                # alpine 3.10
 guessit<3.2.0                   # to ensure guessit working with python2.7
 guppy
-idna==2.8                       # alpine 3.10
+idna==2.10                       # alpine 3.10
 itsdangerous
 Jinja2
 lxml==4.3.4                     # alpine 3.10
