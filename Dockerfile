@@ -60,17 +60,13 @@ RUN \
     apk add --no-cache \
         py2-gevent \
         py2-greenlet \
-        py2-idna \
         py2-lxml \
         py2-pillow && \
     pip install -r /tmp/requirements.txt && \
     echo "**** install runtime packages ****" && \
     apk add --no-cache \
         `# torrent_info` \
-        libstdc++ boost-python2 boost-system \
-        libxml2 \
-        libxslt \
-        jpeg && \
+        libstdc++ boost-python2 boost-system && \
     echo "**** install built-in apps ****" && \
     curl -fsSL https://filebrowser.org/get.sh | bash && \
     curl -fsSL https://raw.githubusercontent.com/wiserain/rclone/mod/install.sh | bash && \

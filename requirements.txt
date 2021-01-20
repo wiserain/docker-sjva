@@ -4,14 +4,8 @@
 #
 #    pip-compile
 #
-alembic==1.5.1
-    # via
-    #   -r requirements.in
-    #   flask-migrate
 amqp==2.6.1
     # via kombu
-aniso8601==8.1.0
-    # via flask-restful
 apscheduler==3.7.0
     # via -r requirements.in
 babelfish==0.5.5
@@ -23,19 +17,11 @@ cachetools==3.1.1
 celery[redis]==4.4.7
     # via -r requirements.in
 certifi==2020.12.5
-    # via
-    #   -r requirements.in
-    #   requests
-cffi==1.14.4
-    # via -r requirements.in
+    # via requests
 chardet==4.0.0
-    # via
-    #   -r requirements.in
-    #   requests
+    # via requests
 click==7.1.2
-    # via
-    #   -r requirements.in
-    #   flask
+    # via flask
 configparser==4.0.2
     # via importlib-metadata
 contextlib2==0.6.0.post1
@@ -46,34 +32,25 @@ discord-webhook==0.11.0
     # via -r requirements.in
 enum34==1.1.10
     # via -r requirements.in
+flask-cors==3.0.10
+    # via -r requirements.in
 flask-login==0.5.0
     # via -r requirements.in
-flask-migrate==2.6.0
-    # via -r requirements.in
-flask-restful==0.3.8
-    # via -r requirements.in
-flask-socketio==4.3.1
+flask-socketio==4.3.2
     # via -r requirements.in
 flask-sqlalchemy==2.4.4
-    # via
-    #   -r requirements.in
-    #   flask-migrate
+    # via -r requirements.in
 flask==1.1.2
     # via
     #   -r requirements.in
+    #   flask-cors
     #   flask-login
-    #   flask-migrate
-    #   flask-restful
     #   flask-socketio
     #   flask-sqlalchemy
 funcsigs==1.0.2
-    # via
-    #   -r requirements.in
-    #   apscheduler
-    #   mock
+    # via apscheduler
 futures==3.3.0
     # via
-    #   -r requirements.in
     #   apscheduler
     #   google-api-core
 gevent-websocket==0.10.1
@@ -101,44 +78,27 @@ greenlet==0.4.15
     #   gevent
 guessit==3.1.1
     # via -r requirements.in
-guppy==0.1.11
-    # via -r requirements.in
 httplib2==0.18.1
     # via
     #   google-api-python-client
     #   google-auth-httplib2
     #   oauth2client
-idna==2.8
-    # via
-    #   -r requirements.in
-    #   requests
+idna==2.10
+    # via requests
 importlib-metadata==2.1.1
     # via kombu
 itsdangerous==1.1.0
-    # via
-    #   -r requirements.in
-    #   flask
+    # via flask
 jinja2==2.11.2
-    # via
-    #   -r requirements.in
-    #   flask
+    # via flask
 kombu==4.6.11
     # via celery
 lxml==4.3.4
     # via -r requirements.in
-mako==1.1.4
-    # via
-    #   -r requirements.in
-    #   alembic
 markdown==3.1.1
     # via -r requirements.in
 markupsafe==1.1.1
-    # via
-    #   -r requirements.in
-    #   jinja2
-    #   mako
-mock==3.0.5
-    # via -r requirements.in
+    # via jinja2
 oauth2client==4.1.3
     # via -r requirements.in
 pathlib2==2.3.5
@@ -162,37 +122,24 @@ pyasn1==0.4.8
     #   oauth2client
     #   pyasn1-modules
     #   rsa
-pycparser==2.20
-    # via
-    #   -r requirements.in
-    #   cffi
 pycryptodome==3.9.9
     # via -r requirements.in
 python-dateutil==2.8.1
-    # via
-    #   -r requirements.in
-    #   alembic
-    #   guessit
-python-editor==1.0.4
-    # via
-    #   -r requirements.in
-    #   alembic
+    # via guessit
 python-engineio==3.13.2
     # via
     #   -r requirements.in
     #   python-socketio
 python-qbittorrent==0.4.2
     # via -r requirements.in
-python-socketio==4.6.0
+python-socketio==4.6.1
     # via
     #   -r requirements.in
     #   flask-socketio
 pytz==2020.5
     # via
-    #   -r requirements.in
     #   apscheduler
     #   celery
-    #   flask-restful
     #   google-api-core
     #   tzlocal
 rebulk==2.0.1
@@ -203,7 +150,6 @@ redis==3.5.3
     # via celery
 requests==2.25.1
     # via
-    #   -r requirements.in
     #   discord-webhook
     #   google-api-core
     #   plexapi
@@ -218,15 +164,13 @@ selenium==3.141.0
     # via -r requirements.in
 six==1.15.0
     # via
-    #   -r requirements.in
     #   apscheduler
-    #   flask-restful
+    #   flask-cors
     #   google-api-core
     #   google-api-python-client
     #   google-auth
     #   google-auth-httplib2
     #   guessit
-    #   mock
     #   oauth2client
     #   pathlib2
     #   protobuf
@@ -235,31 +179,20 @@ six==1.15.0
     #   python-socketio
     #   rebulk
     #   transmissionrpc
-    #   websocket-client
 sqlalchemy==1.3.22
-    # via
-    #   -r requirements.in
-    #   alembic
-    #   flask-sqlalchemy
+    # via flask-sqlalchemy
 sqlitedict==1.7.0
     # via -r requirements.in
-synolopy==0.1.2
-    # via -r requirements.in
 telepot==12.7
-    # via -r requirements.in
-tqdm==4.56.0
     # via -r requirements.in
 transmissionrpc==0.11
     # via -r requirements.in
 tzlocal==2.1
-    # via
-    #   -r requirements.in
-    #   apscheduler
+    # via apscheduler
 uritemplate==3.0.1
     # via google-api-python-client
 urllib3==1.26.2
     # via
-    #   -r requirements.in
     #   requests
     #   selenium
     #   telepot
@@ -267,12 +200,8 @@ vine==1.3.0
     # via
     #   amqp
     #   celery
-websocket-client==0.57.0
-    # via -r requirements.in
 werkzeug==1.0.1
-    # via
-    #   -r requirements.in
-    #   flask
+    # via flask
 youtube-dl==2021.1.16
     # via -r requirements.in
 zipp==1.2.0
