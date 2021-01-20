@@ -1,39 +1,33 @@
-gevent==1.5.0
-greenlet==0.4.17
-lxml==4.6.2
-multidict==5.1.0
-pillow==7.2.0
-psutil==5.8.0
-pycryptodome==3.9.9
-yarl==1.6.3
-idna
-    # via apk
-apscheduler
-celery
-flask-login
-flask-socketio<5.0.0
-python-engineio<4.0.0
-python-socketio<5.0.0
-flask-sqlalchemy
-gevent-websocket
-markdown
-pytz
-redis
-selenium
-sqlitedict
-sqlalchemy
-telepot
+flask
 flask-cors
-    # required
-wcwidth
-google-api-python-client
-guessit
-plexapi
-python-qbittorrent
-transmissionrpc
-synolopy
-flask-restful
+flask-login
+flask-sqlalchemy
+flask-socketio<5.0.0
+python-socketio<5.0.0
+python-engineio<4.0.0
+apscheduler
+markdown
 discord-webhook
-oauth2client
+telepot
+multidict==5.1.0                # alpine 3.13
+yarl==1.6.3                     # alpine 3.13
+gevent==1.5.0                   # alpine 3.13
+gevent-websocket
+greenlet==0.4.17                # alpine 3.13
+celery[redis]                   # use celery if not USE_CELERY="true"
+pycryptodome==3.9.9             # alpine 3.13
+psutil==5.8.0                   # alpine 3.13
+selenium
+    # core
+lxml==4.6.2                     # alpine 3.13
+PlexAPI
+guessit
+sqlitedict                      # gdrive_scan
+oauth2client                    # gdrive_scan
+google-api-python-client        # gdrive_scan
+    # minimal
+Pillow==7.2.0                   # alpine 3.13
+python-qbittorrent              # plugin - downloader
+transmissionrpc                 # plugin - downloader
 youtube-dl
     # recommended
