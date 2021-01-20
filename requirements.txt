@@ -4,7 +4,7 @@
 #
 #    pip-compile
 #
-alembic==1.4.3
+alembic==1.5.1
     # via
     #   -r requirements.in
     #   flask-migrate
