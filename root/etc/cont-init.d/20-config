@@ -19,3 +19,5 @@ mkdir -p \
 
 # permissions
 chmod +x /app/export.sh
+
+git config --global pull.ff only
