@@ -6,11 +6,11 @@
 #
 aiohttp==3.7.3
     # via telepot
-amqp==5.0.2
+amqp==5.0.3
     # via kombu
 aniso8601==8.1.0
     # via flask-restful
-apscheduler==3.6.3
+apscheduler==3.7.0
     # via -r requirements.in
 async-timeout==3.0.1
     # via aiohttp
@@ -224,8 +224,8 @@ yarl==1.6.3
     # via
     #   -r requirements.in
     #   aiohttp
-youtube-dl
-    # keep up-to-date
+youtube-dl==2021.1.16
+    # via -r requirements.in
 
 # The following packages are considered to be unsafe in a requirements file:
 # setuptools
