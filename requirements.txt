@@ -61,7 +61,7 @@ flask==1.1.2
     #   flask-sqlalchemy
 gevent-websocket==0.10.1
     # via -r requirements.in
-gevent==1.5.0
+gevent==21.1.1
     # via
     #   -r requirements.in
     #   gevent-websocket
@@ -226,6 +226,10 @@ yarl==1.6.3
     #   aiohttp
 youtube-dl==2021.1.16
     # via -r requirements.in
+zope.event==4.5.0
+    # via gevent
+zope.interface==5.2.0
+    # via gevent
 
 # The following packages are considered to be unsafe in a requirements file:
 # setuptools
