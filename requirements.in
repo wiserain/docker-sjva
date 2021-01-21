@@ -11,7 +11,7 @@ discord-webhook
 telepot
 multidict==5.1.0                # alpine 3.13
 yarl==1.6.3                     # alpine 3.13
-gevent==1.5.0                   # alpine 3.13
+gevent==21.1.2                   # alpine 3.13
 gevent-websocket
 greenlet==0.4.17                # alpine 3.13
 celery[redis]                   # use celery if not USE_CELERY="true"
