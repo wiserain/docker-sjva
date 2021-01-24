@@ -30,4 +30,5 @@ Pillow==6.0.0                   # alpine 3.10
 python-qbittorrent              # plugin - downloader
 transmissionrpc                 # plugin - downloader
 youtube-dl
+tmdbsimple                      # plugin - metadata
     # recommended

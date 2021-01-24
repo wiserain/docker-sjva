@@ -154,6 +154,7 @@ requests==2.25.1
     #   google-api-core
     #   plexapi
     #   python-qbittorrent
+    #   tmdbsimple
 rsa==4.5
     # via
     #   google-auth
@@ -184,6 +185,8 @@ sqlalchemy==1.3.22
 sqlitedict==1.7.0
     # via -r requirements.in
 telepot==12.7
+    # via -r requirements.in
+tmdbsimple==2.8.0
     # via -r requirements.in
 transmissionrpc==0.11
     # via -r requirements.in
