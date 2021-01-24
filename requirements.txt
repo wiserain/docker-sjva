@@ -115,7 +115,7 @@ pillow==7.2.0
     # via -r requirements.in
 plexapi==4.2.0
     # via -r requirements.in
-prompt-toolkit==3.0.11
+prompt-toolkit==3.0.13
     # via click-repl
 protobuf==3.14.0
     # via
@@ -162,6 +162,7 @@ requests==2.25.1
     #   google-api-core
     #   plexapi
     #   python-qbittorrent
+    #   tmdbsimple
 rsa==4.7
     # via
     #   google-auth
@@ -188,6 +189,8 @@ sqlalchemy==1.3.22
 sqlitedict==1.7.0
     # via -r requirements.in
 telepot==12.7
+    # via -r requirements.in
+tmdbsimple==2.8.0
     # via -r requirements.in
 transmissionrpc==0.11
     # via -r requirements.in
