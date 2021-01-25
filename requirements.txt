@@ -217,7 +217,7 @@ yarl==1.6.3
     # via
     #   -r requirements.in
     #   aiohttp
-youtube-dl==2021.1.16
+youtube-dl==2021.1.24.1
     # via -r requirements.in
 
 # The following packages are considered to be unsafe in a requirements file:
