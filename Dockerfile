@@ -8,15 +8,6 @@ LABEL maintainer="wiserain"
 # See: https://github.com/Docker-Hub-frolvlad/docker-alpine-python3/pull/13
 ENV PYTHONUNBUFFERED=1
 
-# SYSTEM ENVs
-ENV PATH="${PATH}:/app/data/bin:/app/data/command"
-ENV PYTHONPATH "/app"
-ENV SJVA_RUNNING_TYPE "docker"
-
-# USER ENVs
-ENV RCLONE_CONFIG=/app/data/db/rclone.conf
-ENV TZ=Asia/Seoul
-
 COPY requirements.txt /tmp/
 
 RUN \
@@ -49,7 +40,7 @@ RUN \
         vnstat \
         wget && \
     sed -i 's/#user_allow_other/user_allow_other/' /etc/fuse.conf && \
-    echo "**** install sjva-deps ****" && \
+    echo "**** install python packages ****" && \
     apk add --no-cache \
         py3-gevent \
         py3-lxml \
@@ -59,6 +50,11 @@ RUN \
         py3-pycryptodome \
         py3-yarl && \
     pip install -r /tmp/requirements.txt && \
+    echo "**** install runtime packages ****" && \
+    apk add --no-cache \
+        `# torrent_info` \
+        libstdc++ boost-python3 boost-system && \
+    echo "**** install built-in apps ****" && \
     curl -fsSL https://filebrowser.org/get.sh | bash && \
     curl -fsSL https://raw.githubusercontent.com/wiserain/rclone/mod/install.sh | bash && \
     echo "**** cleanup ****" && \
@@ -70,15 +66,22 @@ RUN \
 # copy libtorrent libs
 COPY --from=libtorrent /libtorrent-build/usr/lib/ /usr/lib/
 
-RUN \
-    echo "**** install sjva ****" && \
-    git clone https://github.com/soju6jan/sjva2_src_obfuscate /app --depth=1
+# SYSTEM ENVs
+ENV PYTHONPATH "/app"
+ENV TZ=Asia/Seoul
+ENV SJVA_RUNNING_TYPE="docker"
+ENV S6_BEHAVIOUR_IF_STAGE2_FAILS=2
+
+# USER ENVs
+ENV RCLONE_CONFIG=/app/data/db/rclone.conf
+ENV PATH="/app/data/command:/app/data/bin:/app/bin:${PATH}"
 
 # copy local files
 COPY root/ /
 
-HEALTHCHECK --interval=30s --timeout=30s --start-period=50s --retries=3 CMD [ "curl 127.0.0.1:$(sqlite3 /app/data/db/sjva.db "select value from system_setting where key='port'")/version || exit 1" ]
+HEALTHCHECK --interval=30s --timeout=30s --start-period=50s --retries=3 CMD curl 127.0.0.1:$(sqlite3 /app/data/db/sjva.db "select value from system_setting where key='port'")/version || exit 1
 
+VOLUME /app/data
 WORKDIR /app/data
 EXPOSE 9998 9999
 

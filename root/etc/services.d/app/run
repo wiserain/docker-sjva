@@ -1,0 +1,32 @@
+#!/usr/bin/with-contenv bash
+
+. /app/export.sh
+
+cd /app
+
+COUNT=0
+while [ 1 ];
+do
+    if [ "${USE_CELERY}" = "true" ] ; then
+        python sjva.py 0 ${COUNT}
+    else
+        python sjva.py 0 ${COUNT} no_celery
+    fi
+    
+    RESULT=$?
+    echo "[services.d] app exited ${RESULT}."
+    if [ "$RESULT" = "0" ]; then
+        echo '[services.d] terminating app...'
+        # TODO: stop services and container
+        break
+    fi 
+    COUNT=`expr $COUNT + 1`
+    echo "[services.d] restarting app... ${COUNT}"
+
+    /etc/cont-init.d/20-config
+
+    # restart service
+    s6-svc -wr -r /var/run/s6/services/celery
+    s6-svc -wr -r /var/run/s6/services/redis
+    s6-svc -wr -r /var/run/s6/services/filebrowser
+done 

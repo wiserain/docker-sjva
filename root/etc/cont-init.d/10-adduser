@@ -34,3 +34,6 @@ User gid:    $(id -g abc)
 chown abc:abc /app
 chown abc:abc /config
 chown abc:abc /defaults
+
+git config --global pull.ff only
+git config --global init.defaultBranch master

@@ -6,7 +6,7 @@
 #
 aiohttp==3.7.3
     # via telepot
-amqp==5.0.3
+amqp==5.0.5
     # via kombu
 apscheduler==3.7.0
     # via -r requirements.in
@@ -18,7 +18,7 @@ babelfish==0.5.5
     # via guessit
 billiard==3.6.3.0
     # via celery
-cachetools==4.2.0
+cachetools==4.2.1
     # via google-auth
 celery[redis]==5.0.5
     # via -r requirements.in
@@ -64,7 +64,7 @@ gevent==1.5.0
     # via
     #   -r requirements.in
     #   gevent-websocket
-google-api-core==1.25.0
+google-api-core==1.25.1
     # via google-api-python-client
 google-api-python-client==1.12.8
     # via -r requirements.in
@@ -115,7 +115,7 @@ pillow==7.2.0
     # via -r requirements.in
 plexapi==4.3.0
     # via -r requirements.in
-prompt-toolkit==3.0.13
+prompt-toolkit==3.0.14
     # via click-repl
 protobuf==3.14.0
     # via
@@ -200,7 +200,7 @@ tzlocal==2.1
     # via apscheduler
 uritemplate==3.0.1
     # via google-api-python-client
-urllib3==1.26.2
+urllib3==1.26.3
     # via
     #   requests
     #   selenium
