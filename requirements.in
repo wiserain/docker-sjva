@@ -15,7 +15,7 @@ gevent==1.5.0                   # alpine 3.13
 gevent-websocket
 greenlet==0.4.17                # alpine 3.13
 celery[redis]                   # use celery if not USE_CELERY="true"
-pycryptodome==3.9.9             # alpine 3.13
+pycryptodome==3.10.1             # alpine 3.13
 psutil==5.8.0                   # alpine 3.13
 selenium
     # core
