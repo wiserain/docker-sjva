@@ -31,4 +31,5 @@ python-qbittorrent              # plugin - downloader
 transmissionrpc                 # plugin - downloader
 youtube-dl
 tmdbsimple                      # plugin - metadata
+tvdb-api                        # plugin - metadata
     # recommended
