@@ -18,14 +18,14 @@ if [ -d "${app_root}/.git" ]; then
   find "${app_root}" -name "index.lock" -exec rm -f '{}' \;
   git reset --quiet --hard HEAD
   echo "*** checking for updates..."
-  git pull origin master --depth 1
+  git pull origin master --depth 1 --rebase
 else
   find "${app_root}/data" -type f -name "*.pyc" -o -name "*.pyo" -exec rm -f '{}' \;
   find "${app_root}" -mindepth 1 -maxdepth 1 ! \( -name data -o -name export.sh \) -exec rm -rf '{}' \;
   echo "*** installing app to '${app_root}'..."
   git init --quiet > /dev/null
   git remote add origin "${app_src}"
-  git pull --quiet origin master --depth 1
+  git pull --quiet origin master --depth 1 --rebase
 fi
 
 # dirs
