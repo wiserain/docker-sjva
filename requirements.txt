@@ -100,7 +100,7 @@ kombu==5.0.2
     # via celery
 lxml==4.6.2
     # via -r requirements.in
-markdown==3.3.3
+markdown==3.3.4
     # via -r requirements.in
 markupsafe==1.1.1
     # via jinja2
