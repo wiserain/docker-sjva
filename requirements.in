@@ -26,7 +26,7 @@ sqlitedict                      # gdrive_scan
 oauth2client                    # gdrive_scan
 google-api-python-client        # gdrive_scan
     # minimal
-Pillow==7.2.0                   # alpine 3.13
+Pillow==8.1.2                   # alpine 3.13
 python-qbittorrent              # plugin - downloader
 transmissionrpc                 # plugin - downloader
 youtube-dl
