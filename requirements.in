@@ -46,19 +46,13 @@ tzlocal==1.5.1
 # urllib3==1.24.1
 websocket-client==0.56.0
 # Werkzeug==0.15.2
-youtube-dl
 selenium>=3.141.0
-flask-restful
 celery[redis]
 mock
 discord-webhook
     # via https://raw.githubusercontent.com/soju6jan/SJVA2/master/requirements.txt
 rebulk<=2.0.1
     # to ensure guessit working with python2.7
-python-qbittorrent
-transmissionrpc
-synolopy
-    # packages for downloader plugin
 werkzeug>=0.15.3
 psutil>=5.6.6
 python-engineio>=3.9.0
