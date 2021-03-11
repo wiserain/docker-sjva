@@ -25,9 +25,5 @@ rebulk<3.0.0                    # to ensure guessit working with python2.7
 sqlitedict                      # gdrive_scan
 oauth2client                    # gdrive_scan
 google-api-python-client        # gdrive_scan
+rsa<=4.5
     # minimal
-Pillow==6.0.0                   # alpine 3.10
-python-qbittorrent              # plugin - downloader
-transmissionrpc                 # plugin - downloader
-youtube-dl
-    # recommended
