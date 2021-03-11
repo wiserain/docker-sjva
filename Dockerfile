@@ -1,8 +1,9 @@
 ARG ALPINE_VER=3.10
 ARG LIBTORRENT_VER=latest
-FROM wiserain/libtorrent:${LIBTORRENT_VER}-alpine${ALPINE_VER}-py2 AS libtorrent
+FROM ghcr.io/wiserain/libtorrent:${LIBTORRENT_VER}-alpine${ALPINE_VER}-py2 AS libtorrent
 FROM python:2.7-alpine${ALPINE_VER}
 LABEL maintainer="wiserain"
+LABEL org.opencontainers.image.source https://github.com/wiserain/docker-sjva
 
 # https://discordapp.com/channels/590210675628834846/619765438837948456/655753524378075147
 
