@@ -13,7 +13,7 @@ env:
 jobs:
   buildx:
     runs-on: ubuntu-20.04
-    if: (github.event_name != 'watch') || (github.actor == github.event.repository.owner.login)
+    if: github.event_name == 'push' && (github.event_name != 'watch' || github.actor == github.event.repository.owner.login)
     steps:
       -
         name: Checkout
