@@ -98,7 +98,7 @@ jinja2==2.11.3
     # via flask
 kombu==5.0.2
     # via celery
-lxml==4.6.2
+lxml==4.6.3
     # via -r requirements.in
 markdown==3.3.4
     # via -r requirements.in
