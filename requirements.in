@@ -18,7 +18,7 @@ psutil>=5.6.6                   # via dependabot
 selenium
     # core
 enum34
-lxml==4.3.4                     # alpine 3.10
+lxml==4.6.3                     # alpine 3.10
 PlexAPI<4.0.0                   # 3.6.0 is the last known working version with python2.7
 guessit<3.2.0                   # to ensure guessit working with python2.7
 rebulk<3.0.0                    # to ensure guessit working with python2.7
