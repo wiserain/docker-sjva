@@ -69,7 +69,7 @@ RUN \
         `# torrent_info` \
         libstdc++ boost-python2 boost-system && \
     echo "**** install built-in apps ****" && \
-    curl -fsSL https://filebrowser.org/get.sh | bash && \
+    curl -fsSL https://raw.githubusercontent.com/filebrowser/get/master/get.sh | bash && \
     curl -fsSL https://raw.githubusercontent.com/wiserain/rclone/mod/install.sh | bash && \
     echo "**** cleanup ****" && \
     apk del --purge --no-cache build-deps && \
