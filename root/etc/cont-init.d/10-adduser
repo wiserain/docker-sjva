@@ -8,14 +8,14 @@ usermod -o -u "$PUID" abc
 
 echo '
 -------------------------------------
-      _____      ___      __     
-     / ____|    | \ \    / /\    
-    | (___      | |\ \  / /  \   
-     \___ \ _   | | \ \/ / /\ \  
-     ____) | |__| |  \  / ____ \ 
-    |_____/ \____/    \/_/    \_\
-                                 
-                                 
+   _____      ___      __     ____  
+  / ____|    | \ \    / /\   |___ \ 
+ | (___      | |\ \  / /  \    __) |
+  \___ \ _   | | \ \/ / /\ \  |__ < 
+  ____) | |__| |  \  / ____ \ ___) |
+ |_____/ \____/    \/_/    \_\____/ 
+                                    
+                                    
 -------------------------------------'
 if [[ -f /donate.txt ]]; then
     echo '
@@ -34,3 +34,6 @@ User gid:    $(id -g abc)
 chown abc:abc /app
 chown abc:abc /config
 chown abc:abc /defaults
+
+git config --global pull.ff only
+git config --global init.defaultBranch main

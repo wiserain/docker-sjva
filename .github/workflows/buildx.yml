@@ -43,7 +43,7 @@ jobs:
             .
           CID=$(docker run -d ${{ env.IMAGE_NAME }}:testing)
           docker rm -f $CID
-          echo ::set-output name=app_ver::0.2
+          echo ::set-output name=app_ver::3.0
           echo ::set-output name=github_desc::$(curl -sX GET https://api.github.com/repos/${GITHUB_REPOSITORY} | jq -r .description)
           echo ::set-output name=github_branch::${GITHUB_REF#refs/heads/}
       -
@@ -125,7 +125,7 @@ jobs:
             .
           CID=$(docker run -d ${{ env.IMAGE_NAME }}:testing)
           docker rm -f $CID
-          echo ::set-output name=app_ver::0.2
+          echo ::set-output name=app_ver::3.0
           echo ::set-output name=github_branch::${GITHUB_REF#refs/heads/}
       -
         name: Login to docker.io

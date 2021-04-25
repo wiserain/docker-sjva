@@ -4,26 +4,26 @@ flask-login
 flask-sqlalchemy
 flask-socketio<5.0.0
 python-socketio<5.0.0
-python-engineio<3.14.0
+python-engineio<4.0.0
 apscheduler
 markdown
 discord-webhook
 telepot
-gevent==1.3.4                   # alpine 3.10
+multidict==5.1.0                # alpine 3.13
+yarl==1.6.3                     # alpine 3.13
+gevent==1.5.0                   # alpine 3.13
 gevent-websocket
-greenlet==0.4.15                # alpine 3.10
+greenlet==0.4.17                # alpine 3.13
+sqlalchemy<1.4.0
 celery[redis]                   # use celery if not USE_CELERY="true"
-pycryptodome
-psutil>=5.6.6                   # via dependabot
+pycryptodome==3.9.9             # alpine 3.13
+psutil==5.8.0                   # alpine 3.13
 selenium
     # core
-enum34
-lxml==4.3.4                     # alpine 3.10
-PlexAPI<4.0.0                   # 3.6.0 is the last known working version with python2.7
-guessit<3.2.0                   # to ensure guessit working with python2.7
-rebulk<3.0.0                    # to ensure guessit working with python2.7
+lxml==4.6.3                     # alpine 3.13
+PlexAPI
+guessit
 sqlitedict                      # gdrive_scan
 oauth2client                    # gdrive_scan
 google-api-python-client        # gdrive_scan
-rsa<=4.5
     # minimal

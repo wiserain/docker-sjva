@@ -10,25 +10,24 @@ version: '2.4'
 services:
 
   sjva:
-    image: wiserain/sjva:0.2
+    image: wiserain/sjva:latest
     container_name: sjva
     # restart: always
     restart: 'no'
     network_mode: bridge
     ports:
-      - "9998:9998"
+      - "9998:9998"                           # Optional if filebrowser used
       - "9999:9999"
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
       - TZ=Asia/Seoul
-      - FB_BASEURL=/filebrowser               # Optional
+      - FB_BASEURL=/filebrowser               # Optional if filebrowser used
     # privileged: true                        # only when rclone mount used
     sysctls:
       net.core.somaxconn: '511'                             # To resolve warning
     volumes:
       - ${DOCKER_ROOT}/sjva/data:/app/data
-      - ${DOCKER_ROOT}/sjva/export.sh:/app/export.sh        # Optional
       - /var/lib/vnstat:/var/lib/vnstat:ro                  # Optional
     mem_limit: 768m                                         # If you want to limit memory usage
     # logging options

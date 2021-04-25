@@ -1,15 +1,11 @@
 #!/usr/bin/with-contenv bash
 
-. /app/export.sh
-
-if [ -z ${FB_PORT} ]; then
-	export FB_PORT="${FILEBROWSER_PORT}"
-fi
-if [ -z ${FB_BASEURL} ]; then
-	export FB_BASEURL="${FILEBROWSER_BASEURL}"
-fi
-
-if [ "${RUN_FILEBROWSER}" == "true" ]; then
+if [ "${USE_FILEBROWSER}" == "true" ]; then
 	echo "[services.d] running filebrowser"
-	exec filebrowser -a 0.0.0.0 -r / -d /app/data/db/filebrowser.db > /dev/null 2>&1
+	exec filebrowser -a 0.0.0.0 \
+		-b "${FB_BASEURL:-/}" \
+		-d "${FB_DATABASE:-/app/data/db/filebrowser.db}" \
+		-p "${FB_PORT:-9998}" \
+		-r "${FB_ROOT:-/}" \
+		> /dev/null 2>&1
 fi
