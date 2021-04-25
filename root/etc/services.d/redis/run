@@ -2,10 +2,10 @@
 
 . /app/export.sh
 
-if [ "${USE_CELERY}" == "true" ]; then
-	echo "[services.d] running redis-server@${REDIS_PORT}"
+if [ "${USE_CELERY:-true}" == "true" ]; then
+	echo "[services.d] running redis-server@${REDIS_PORT:-46379}"
 	exec s6-setuidgid abc \
-		redis-server --port ${REDIS_PORT} > /dev/null 2>&1
+		redis-server --port ${REDIS_PORT:-46379} > /dev/null 2>&1
 fi
 
 # dummy to demonize this service run

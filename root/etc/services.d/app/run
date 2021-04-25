@@ -6,7 +6,7 @@ COUNT=0
 while true;
 do
     . /app/export.sh
-    if [ "${USE_CELERY}" = "true" ]; then
+    if [ "${USE_CELERY:-true}" = "true" ]; then
         sleep 1s
         until celery -A sjva3.celery inspect stats > /dev/null 2>&1; do
             echo "[services.d] celery is still loading. Sleeping 3s..."
@@ -15,7 +15,7 @@ do
         echo "[services.d] celery is ready!"
     fi
     echo "[services.d] starting app..."
-    python sjva3.py --repeat=${COUNT} --use_gevent=${USE_GEVENT} --use_celery=${USE_CELERY} --port=${SJVA_PORT:-9999}
+    python sjva3.py --repeat=${COUNT} --use_gevent=${USE_GEVENT:-true} --use_celery=${USE_CELERY:-true} --port=${SJVA_PORT:-9999}
     
     RESULT=$?
     echo "[services.d] app exited with code ${RESULT}"
