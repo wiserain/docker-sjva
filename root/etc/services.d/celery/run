@@ -3,7 +3,7 @@
 . /app/export.sh
 
 if [ "${USE_CELERY:-true}" == "true" ]; then
-	echo "[services.d] running celery with ${CELERY_WORKER_COUNT:-2} workers"	
+	echo "*** starting celery with ${CELERY_WORKER_COUNT:-2} workers"	
 	# # as root
 	# export C_FORCE_ROOT='true'
 	# exec celery -A sjva3.celery \

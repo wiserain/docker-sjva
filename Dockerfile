@@ -1,68 +1,63 @@
-ARG ALPINE_VER=3.13
-ARG LIBTORRENT_VER=latest
-FROM ghcr.io/wiserain/libtorrent:${LIBTORRENT_VER}-alpine${ALPINE_VER}-py3 AS libtorrent
-FROM ghcr.io/linuxserver/baseimage-alpine:${ALPINE_VER}
+FROM ghcr.io/wiserain/libtorrent:latest-ubuntu20.04-py3 AS libtorrent
+FROM ghcr.io/linuxserver/baseimage-ubuntu:focal
 LABEL maintainer="wiserain"
 LABEL org.opencontainers.image.source https://github.com/wiserain/docker-sjva
 
-# This hack is widely applied to avoid python printing issues in docker containers.
-# See: https://github.com/Docker-Hub-frolvlad/docker-alpine-python3/pull/13
-ENV PYTHONUNBUFFERED=1
+ARG DEBIAN_FRONTEND="noninteractive"
+ARG APT_MIRROR="archive.ubuntu.com"
 
 COPY requirements.txt /tmp/
 
 RUN \
-    echo "**** install frolvlad/alpine-python3 ****" && \
-    apk add --no-cache python3 && \
-    if [ ! -e /usr/bin/python ]; then ln -sf /usr/bin/python3 /usr/bin/python; fi && \
-    python3 -m ensurepip && \
-    rm -r /usr/lib/python*/ensurepip && \
-    pip3 install --no-cache --upgrade pip setuptools wheel && \
-    if [ ! -e /usr/bin/pip ]; then ln -s pip3 /usr/bin/pip; fi && \
-    echo "**** install core packages ****" && \
-    apk add --no-cache \
-        ffmpeg \
+    echo "**** prepare apt-get ****" && \
+    sed -i "s/archive.ubuntu.com/\"$APT_MIRROR\"/g" /etc/apt/sources.list && \
+    apt-get update -yqq && apt-get install -yqq --no-install-recommends apt-utils && \
+    echo "**** install apt packages ****" && \
+    apt-get install -y --no-install-recommends \
+        `# python3` \
+        python3 \
+        python3-dev \
+        python3-pip \
+        python3-setuptools \
+        python3-wheel \
+        `# core` \
         git \
-        redis \
-        dos2unix \
-        fuse \
+        lsof \
         curl \
         tzdata \
         bash-completion \
-        `# custom apks` \
-        bash \
-        procps \
-        sqlite \
-        coreutils \
-        findutils \
-        mediainfo \
-        jq \
         unzip \
+        wget \
+        `# minimal` \
+        redis \
+        fuse \
+        `# util` \
+        sqlite \
+        jq \
         vnstat \
-        wget && \
+        `# torrent_info` \
+        'libboost-python[0-9.]+$' && \
     sed -i 's/#user_allow_other/user_allow_other/' /etc/fuse.conf && \
     echo "**** install python packages ****" && \
-    apk add --no-cache \
-        py3-gevent \
-        py3-lxml \
-        py3-multidict \
-        py3-pillow \
-        py3-psutil \
-        py3-pycryptodome \
-        py3-yarl && \
-    pip install -r /tmp/requirements.txt && \
-    echo "**** install runtime packages ****" && \
-    apk add --no-cache \
-        `# torrent_info` \
-        libstdc++ boost-python3 boost-system && \
+    apt-get install -y --no-install-recommends \
+        python3-gevent \
+        python3-lxml \
+        python3-multidict \
+        python3-pil \
+        python3-psutil \
+        python3-yarl && \
+    python3 -m pip install --no-cache-dir -r /tmp/requirements.txt && \
     echo "**** install built-in apps ****" && \
     curl -fsSL https://raw.githubusercontent.com/filebrowser/get/master/get.sh | bash && \
     curl -fsSL https://raw.githubusercontent.com/wiserain/rclone/mod/install.sh | bash && \
     echo "**** cleanup ****" && \
+    apt-get clean && \
+    apt-get clean autoclean && \
     rm -rf \
         /tmp/* \
         /root/.cache \
-        /var/cache/apk/*
+        /var/lib/apt/lists/* \
+        /var/tmp/*
 
 # copy libtorrent libs
 COPY --from=libtorrent /libtorrent-build/usr/lib/ /usr/lib/

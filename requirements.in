@@ -8,19 +8,19 @@ python-engineio<4.0.0
 apscheduler
 markdown
 discord-webhook
-telepot
-multidict==5.1.0                # alpine 3.13
-yarl==1.6.3                     # alpine 3.13
-gevent==1.5.0                   # alpine 3.13
+multidict==4.7.3                # ubuntu 20.04
+yarl==1.4.2                     # ubuntu 20.04
+gevent==1.4.0                   # ubuntu 20.04
 gevent-websocket
-greenlet==0.4.17                # alpine 3.13
+greenlet==0.4.15                # ubuntu 20.04
 sqlalchemy<1.4.0
 celery[redis]                   # use celery if not USE_CELERY="true"
-pycryptodome==3.9.9             # alpine 3.13
-psutil==5.8.0                   # alpine 3.13
+pycryptodome
+psutil==5.5.1                   # ubuntu 20.04
+idna==2.8                       # ubuntu 20.04
 selenium
     # core
-lxml==4.6.3                     # alpine 3.13
+lxml==4.5.0                     # ubuntu 20.04
 PlexAPI
 guessit
 sqlitedict                      # gdrive_scan
