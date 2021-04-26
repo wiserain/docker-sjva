@@ -32,7 +32,7 @@ RUN \
         redis \
         fuse \
         `# util` \
-        sqlite \
+        sqlite3 \
         jq \
         vnstat \
         `# torrent_info` \
@@ -48,7 +48,7 @@ RUN \
         python3-yarl && \
     apt-get install -y --no-install-recommends python3-dev build-essential && \
     python3 -m pip install --no-cache-dir -r /tmp/requirements.txt && \
-    apt-get purge -y python3-dev build-essential && apt-get autoremove -y && \
+    apt-get purge -y --auto-remove python3-dev build-essential && \
     echo "**** install built-in apps ****" && \
     curl -fsSL https://raw.githubusercontent.com/filebrowser/get/master/get.sh | bash && \
     curl -fsSL https://raw.githubusercontent.com/wiserain/rclone/mod/install.sh | bash && \
