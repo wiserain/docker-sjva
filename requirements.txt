@@ -97,7 +97,7 @@ markdown==3.3.4
     # via -r requirements.in
 markupsafe==1.1.1
     # via jinja2
-multidict==4.7.3
+multidict==5.1.0
     # via
     #   -r requirements.in
     #   yarl
