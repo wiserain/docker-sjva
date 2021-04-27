@@ -197,7 +197,7 @@ wcwidth==0.2.5
     # via prompt-toolkit
 werkzeug==1.0.1
     # via flask
-yarl==1.4.2
+yarl==1.6.3
     # via -r requirements.in
 
 # The following packages are considered to be unsafe in a requirements file:

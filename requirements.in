@@ -9,7 +9,7 @@ apscheduler
 markdown
 discord-webhook
 multidict==4.7.3                # ubuntu 20.04
-yarl==1.4.2                     # ubuntu 20.04
+yarl==1.6.3                     # ubuntu 20.04
 gevent==1.4.0                   # ubuntu 20.04
 gevent-websocket
 greenlet==0.4.15                # ubuntu 20.04
