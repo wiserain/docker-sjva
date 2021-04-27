@@ -13,7 +13,7 @@ yarl==1.4.2                     # ubuntu 20.04
 gevent==1.4.0                   # ubuntu 20.04
 gevent-websocket
 greenlet==0.4.15                # ubuntu 20.04
-sqlalchemy<1.4.0
+sqlalchemy<1.5.0
 celery[redis]                   # use celery if not USE_CELERY="true"
 pycryptodome
 psutil==5.5.1                   # ubuntu 20.04
