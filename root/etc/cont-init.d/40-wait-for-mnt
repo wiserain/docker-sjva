@@ -28,10 +28,10 @@ if [ ! -z ${WAIT_MFS_MNTS+x} ]; then
 
     IFS='|'
     WAIT_MFS_MNTS=(${WAIT_MFS_MNTS})
-    for WAIT_MFS_MNTS in "${WAIT_MFS_MNTS[@]}"; do
+    for WAIT_MFS_MNT in "${WAIT_MFS_MNTS[@]}"; do
         # Loop until desired mount is found
-        until [ $(findmnt "${WAIT_MFS_MNTS}" | grep fuse.mergerfs | wc -l) = "1" ]; do
-            echo "ERROR: mergerfs mountpoint (${WAIT_MFS_MNTS}) not found. Retrying in 30s ..."
+        until [ $(findmnt "${WAIT_MFS_MNT}" | grep fuse.mergerfs | wc -l) = "1" ]; do
+            echo "ERROR: mergerfs mountpoint (${WAIT_MFS_MNT}) not found. Retrying in 30s ..."
             sleep 30
         done
     done

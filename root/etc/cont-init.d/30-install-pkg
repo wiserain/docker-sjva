@@ -2,7 +2,8 @@
 
 # apt mirror
 if [ ! -z ${APT_MIRROR+x} ] && [ -f /etc/apt/sources.list ]; then 
-    sed -i "s/archive.ubuntu.com/\"$APT_MIRROR\"/g" /etc/apt/sources.list
+    sed -i "s/archive.ubuntu.com/$APT_MIRROR/g" /etc/apt/sources.list
+    apt-get update -yqq
 fi
 
 # ubuntu
@@ -10,10 +11,9 @@ if [ ! -z ${INSTALL_APT_PKGS+x} ] && [ -f /usr/bin/apt ]; then
     export DEBIAN_FRONTEND=noninteractive
     IFS='|'
     INSTALL_APT_PKGS=(${INSTALL_APT_PKGS})
-    # apt-get update if never done or older than an hour
+    # apt-get update if never done during the past 24 hours
     [ ! -d /var/lib/apt/lists/partial ] && apt-get update -yqq
-    [ "$(find /var/lib/apt/lists/partial/ -mtime +1 | grep partial | wc -l)" != "0" ] && \
-        apt-get update -yqq
+    [ -z "$(find -H /var/lib/apt/lists -maxdepth 0 -mtime -1)" ] && apt-get update -yqq
     echo "*** installing apt packages: ${INSTALL_APT_PKGS[@]}"
     apt-get install -yqq --no-install-recommends \
         "${INSTALL_APT_PKGS[@]}" > /dev/null 2>&1

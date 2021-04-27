@@ -10,7 +10,7 @@ COPY requirements.txt /tmp/
 
 RUN \
     echo "**** prepare apt-get ****" && \
-    sed -i "s/archive.ubuntu.com/\"$APT_MIRROR\"/g" /etc/apt/sources.list && \
+    sed -i "s/archive.ubuntu.com/$APT_MIRROR/g" /etc/apt/sources.list && \
     apt-get update -yqq && apt-get install -yqq --no-install-recommends apt-utils && \
     echo "**** install apt packages ****" && \
     apt-get install -y --no-install-recommends \
