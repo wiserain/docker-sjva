@@ -14,10 +14,8 @@ async-timeout==3.0.1
     # via aiohttp
 attrs==20.3.0
     # via aiohttp
-babelfish==0.5.4
-    # via
-    #   -r requirements.in
-    #   guessit
+babelfish==0.5.5
+    # via guessit
 billiard==3.6.4.0
     # via celery
 cachetools==4.2.2
@@ -68,7 +66,7 @@ gevent==1.4.0
     #   gevent-websocket
 google-api-core==1.26.3
     # via google-api-python-client
-google-api-python-client==2.2.0
+google-api-python-client==2.3.0
     # via -r requirements.in
 google-auth-httplib2==0.1.0
     # via google-api-python-client

@@ -1,9 +1,11 @@
 #!/usr/bin/with-contenv bash
 
 # apt mirror
-if [ ! -z ${APT_MIRROR+x} ] && [ -f /etc/apt/sources.list ]; then 
-    sed -i "s/archive.ubuntu.com/$APT_MIRROR/g" /etc/apt/sources.list
-    apt-get update -yqq
+if [ ! -z ${APT_MIRROR+x} ] && [ -f /etc/apt/sources.list ]; then
+    if grep -qoE "([a-z]{2}.)?archive.ubuntu.com|security.ubuntu.com" /etc/apt/sources.list; then
+        sed -i -re "s/([a-z]{2}.)?archive.ubuntu.com|security.ubuntu.com/$APT_MIRROR/g" /etc/apt/sources.list
+        apt-get update -qq
+    fi
 fi
 
 # ubuntu

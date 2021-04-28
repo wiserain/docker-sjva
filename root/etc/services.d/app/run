@@ -13,7 +13,7 @@ do
         done
     fi
     echo "*** starting SJVA..."
-    python sjva3.py --repeat=${COUNT} --use_gevent=${USE_GEVENT} --use_celery=${USE_CELERY} --port=${SJVA_PORT}
+    python3 sjva3.py --repeat=${COUNT} --use_gevent=${USE_GEVENT} --use_celery=${USE_CELERY} --port=${SJVA_PORT}
     
     RESULT=$?
     echo "*** SJVA exited with code ${RESULT}"

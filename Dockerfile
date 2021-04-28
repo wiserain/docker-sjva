@@ -11,9 +11,7 @@ ENV S6_BEHAVIOUR_IF_STAGE2_FAILS=2 \
     TZ=Asia/Seoul
 
 # APP defaults
-ENV PYTHONPATH=/app \
-    VIRTUAL_ENV=/app/venv \
-    SJVA_HOME=/app \
+ENV SJVA_HOME=/app \
     SJVA_RUNNING_TYPE=docker \
     SJVA_PORT=9999 \
     REDIS_PORT=46379 \
@@ -22,8 +20,8 @@ ENV PYTHONPATH=/app \
     CELERY_WORKER_COUNT=2
 
 # update PATH
-ENV PATH="$SJVA_HOME/data/command:$SJVA_HOME/data/bin:$VIRTUAL_ENV/bin:$PATH" \
-    RCLONE_CONFIG="$SJVA_HOME/data/db/rclone.conf"
+ENV PATH="$SJVA_HOME/data/command:$SJVA_HOME/data/bin:$PATH" \
+    PYTHONPATH="$SJVA_HOME"
 
 COPY requirements.txt ${SJVA_HOME}/
 
@@ -38,8 +36,6 @@ RUN \
         python3-pip \
         python3-setuptools \
         python3-wheel \
-        python3-venv \
-        python3-babelfish \
         python3-gevent \
         python3-lxml \
         `# core` \
@@ -61,8 +57,6 @@ RUN \
         'libboost-python[0-9.]+$' && \
     sed -i 's/#user_allow_other/user_allow_other/' /etc/fuse.conf && \
     echo "**** install python packages ****" && \
-    python3 -m venv --system-site-packages $VIRTUAL_ENV && \
-    python3 -m pip install --upgrade pip setuptools && \
     apt-get install -y --no-install-recommends python3-dev gcc && \
     python3 -m pip install --no-cache-dir -r ${SJVA_HOME}/requirements.txt && \
     apt-get purge -y --auto-remove python3-dev gcc && \
@@ -88,6 +82,6 @@ HEALTHCHECK --interval=30s --timeout=30s --start-period=50s --retries=3 CMD curl
 
 VOLUME ${SJVA_HOME}/data
 WORKDIR ${SJVA_HOME}/data
-EXPOSE 9998 9999
+EXPOSE ${SJVA_PORT}
 
 ENTRYPOINT ["/init"]

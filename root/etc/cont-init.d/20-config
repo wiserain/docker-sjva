@@ -11,7 +11,7 @@ if [ -d "${SJVA_HOME}/.git" ]; then
   git pull origin main --allow-unrelated-histories --rebase
 else
   find "${SJVA_HOME}/data" -type f -name "*.pyc" -o -name "*.pyo" -exec rm -f '{}' \;
-  find "${SJVA_HOME}" -mindepth 1 -maxdepth 1 ! \( -name data -o -name venv \) -exec rm -rf '{}' \;
+  find "${SJVA_HOME}" -mindepth 1 -maxdepth 1 ! \( -name data -o -name requirements.txt \) -exec rm -rf '{}' \;
   echo "*** installing SJVA to '${SJVA_HOME}'..."
   git init --quiet > /dev/null
   git remote add origin "https://github.com/soju6jan/SJVA3.git"

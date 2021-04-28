@@ -20,7 +20,6 @@ greenlet==0.4.15                # ubuntu 20.04
 aiohttp                         # telepot
     # minimal
 guessit                         # requires babelfish rebulk
-babelfish==0.5.4                # ubuntu 20.04
 lxml==4.5.0                     # ubuntu 20.04
     # plugin: fileprocess
 PlexAPI
