@@ -42,7 +42,6 @@ RUN \
         python3-babelfish \
         python3-gevent \
         python3-lxml \
-        python3-psutil \
         `# core` \
         git \
         lsof \
