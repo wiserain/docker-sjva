@@ -14,7 +14,7 @@ async-timeout==3.0.1
     # via aiohttp
 attrs==20.3.0
     # via aiohttp
-babelfish==0.5.4
+babelfish==0.5.5
     # via
     #   -r requirements.in
     #   guessit
