@@ -62,6 +62,7 @@ RUN \
     sed -i 's/#user_allow_other/user_allow_other/' /etc/fuse.conf && \
     echo "**** install python packages ****" && \
     python3 -m venv --system-site-packages $VIRTUAL_ENV && \
+    python3 -m pip install --upgrade pip setuptools && \
     apt-get install -y --no-install-recommends python3-dev gcc && \
     python3 -m pip install --no-cache-dir -r ${SJVA_HOME}/requirements.txt && \
     apt-get purge -y --auto-remove python3-dev gcc && \
