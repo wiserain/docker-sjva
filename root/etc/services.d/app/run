@@ -1,30 +1,27 @@
 #!/usr/bin/with-contenv bash
 
-cd /app
+cd "${SJVA_HOME}"
 
 COUNT=0
 while true;
 do
-    . /app/export.sh
-    if [ "${USE_CELERY:-true}" = "true" ]; then
+    if [ "${USE_CELERY}" = "true" ]; then
         sleep 1s
         until celery -A sjva3.celery inspect stats > /dev/null 2>&1; do
             echo "*** celery is still loading. Sleeping 3s..."
             sleep 3s
         done
-        echo "*** celery is ready!"
     fi
-    echo "*** starting app..."
-    python3 sjva3.py --repeat=${COUNT} --use_gevent=${USE_GEVENT:-true} --use_celery=${USE_CELERY:-true} --port=${SJVA_PORT:-9999}
+    echo "*** starting SJVA..."
+    python sjva3.py --repeat=${COUNT} --use_gevent=${USE_GEVENT} --use_celery=${USE_CELERY} --port=${SJVA_PORT}
     
     RESULT=$?
-    echo "*** app exited with code ${RESULT}"
+    echo "*** SJVA exited with code ${RESULT}"
     if [ "$RESULT" = "0" ]; then
-        echo '*** terminating app...'
-        # TODO: stop services and container
+        echo '*** restarting all services...'
         break
     else
-        echo "*** restarting app..."
+        echo "*** restarting services..."
     fi 
     COUNT=`expr $COUNT + 1`
 
@@ -32,5 +29,8 @@ do
 
     # restart service
     s6-svc -wr -r /var/run/s6/services/celery
-    s6-svc -wr -r /var/run/s6/services/redis
 done 
+
+s6-svc -wr -r /var/run/s6/services/celery
+s6-svc -wr -r /var/run/s6/services/redis
+s6-svc -wr -r /var/run/s6/services/filebrowser

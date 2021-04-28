@@ -1,36 +1,26 @@
 #!/usr/bin/with-contenv bash
 set -e
 
-app_root="${APP_ROOT:-/app}"
-app_root="${app_root%%/}"
-app_src="https://github.com/soju6jan/SJVA3.git"
+cd "${SJVA_HOME}"
 
-cd "${app_root}"
-
-# persistent export.sh
-[[ ! -f "${app_root}/data/export.sh" ]] && \
-  cp /defaults/config "${app_root}/data/export.sh"
-chmod a+x "${app_root}/data/export.sh"
-ln -sf "${app_root}/data/export.sh" "${app_root}/export.sh"
-
-# install and update app
-if [ -d "${app_root}/.git" ]; then
-  find "${app_root}" -name "index.lock" -exec rm -f '{}' \;
+# install and update SJVA
+if [ -d "${SJVA_HOME}/.git" ]; then
+  find "${SJVA_HOME}" -name "index.lock" -exec rm -f '{}' \;
   git reset --quiet --hard HEAD
   echo "*** checking for updates..."
   git pull origin main --allow-unrelated-histories --rebase
 else
-  find "${app_root}/data" -type f -name "*.pyc" -o -name "*.pyo" -exec rm -f '{}' \;
-  find "${app_root}" -mindepth 1 -maxdepth 1 ! \( -name data -o -name export.sh \) -exec rm -rf '{}' \;
-  echo "*** installing app to '${app_root}'..."
+  find "${SJVA_HOME}/data" -type f -name "*.pyc" -o -name "*.pyo" -exec rm -f '{}' \;
+  find "${SJVA_HOME}" -mindepth 1 -maxdepth 1 ! \( -name data -o -name venv \) -exec rm -rf '{}' \;
+  echo "*** installing SJVA to '${SJVA_HOME}'..."
   git init --quiet > /dev/null
-  git remote add origin "${app_src}"
+  git remote add origin "https://github.com/soju6jan/SJVA3.git"
   git pull --quiet origin main --depth 1
 fi
 
 # permissions
 chown -R abc:abc \
-  "${app_root}"
+  "${SJVA_HOME}"
 
 # really necessary?
 # chmod 777 .

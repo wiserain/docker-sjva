@@ -1,5 +1,0 @@
-#!/bin/sh
-export REDIS_PORT="46379"
-export USE_CELERY="true"
-export USE_GEVENT="true"
-export CELERY_WORKER_COUNT="2"

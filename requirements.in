@@ -2,28 +2,30 @@ flask
 flask-cors
 flask-login
 flask-sqlalchemy
+sqlalchemy<1.4.0                # via flask-sqlalchemy
 flask-socketio<5.0.0
 python-socketio<5.0.0
 python-engineio<4.0.0
 apscheduler
-markdown
 discord-webhook
-multidict==4.7.3                # ubuntu 20.04
-yarl==1.4.2                     # ubuntu 20.04
+markdown
+pycryptodome
+    # core
+psutil==5.5.1                   # ubuntu 20.04
+selenium
+celery[redis]                   # use celery if not USE_CELERY="true"
 gevent==1.4.0                   # ubuntu 20.04
 gevent-websocket
 greenlet==0.4.15                # ubuntu 20.04
-sqlalchemy<1.4.0
-celery[redis]                   # use celery if not USE_CELERY="true"
-pycryptodome
-psutil==5.5.1                   # ubuntu 20.04
-idna==2.8                       # ubuntu 20.04
-selenium
-    # core
-lxml==4.5.0                     # ubuntu 20.04
-PlexAPI
-guessit
-sqlitedict                      # gdrive_scan
-oauth2client                    # gdrive_scan
-google-api-python-client        # gdrive_scan
+aiohttp                         # telepot
     # minimal
+guessit                         # requires babelfish rebulk
+babelfish==0.5.4                # ubuntu 20.04
+lxml==4.5.0                     # ubuntu 20.04
+    # plugin: fileprocess
+PlexAPI
+    # plugin: plex
+sqlitedict
+oauth2client
+google-api-python-client
+    # plugin: gdrive scan

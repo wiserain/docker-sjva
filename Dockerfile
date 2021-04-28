@@ -6,7 +6,26 @@ LABEL org.opencontainers.image.source https://github.com/wiserain/docker-sjva
 ARG DEBIAN_FRONTEND="noninteractive"
 ARG APT_MIRROR="archive.ubuntu.com"
 
-COPY requirements.txt /tmp/
+# SYSTEM ENVs
+ENV S6_BEHAVIOUR_IF_STAGE2_FAILS=2 \
+    TZ=Asia/Seoul
+
+# APP defaults
+ENV PYTHONPATH=/app \
+    VIRTUAL_ENV=/app/venv \
+    SJVA_HOME=/app \
+    SJVA_RUNNING_TYPE=docker \
+    SJVA_PORT=9999 \
+    REDIS_PORT=46379 \
+    USE_CELERY=true \
+    USE_GEVENT=true \
+    CELERY_WORKER_COUNT=2
+
+# update PATH
+ENV PATH="$SJVA_HOME/data/command:$SJVA_HOME/data/bin:$VIRTUAL_ENV/bin:$PATH" \
+    RCLONE_CONFIG="$SJVA_HOME/data/db/rclone.conf"
+
+COPY requirements.txt ${SJVA_HOME}/
 
 RUN \
     echo "**** prepare apt-get ****" && \
@@ -16,10 +35,14 @@ RUN \
     apt-get install -y --no-install-recommends \
         `# python3` \
         python3 \
-        python3-dev \
         python3-pip \
         python3-setuptools \
         python3-wheel \
+        python3-venv \
+        python3-babelfish \
+        python3-gevent \
+        python3-lxml \
+        python3-psutil \
         `# core` \
         git \
         lsof \
@@ -39,16 +62,10 @@ RUN \
         'libboost-python[0-9.]+$' && \
     sed -i 's/#user_allow_other/user_allow_other/' /etc/fuse.conf && \
     echo "**** install python packages ****" && \
-    apt-get install -y --no-install-recommends \
-        python3-gevent \
-        python3-lxml \
-        python3-multidict \
-        python3-pil \
-        python3-psutil \
-        python3-yarl && \
-    apt-get install -y --no-install-recommends python3-dev build-essential && \
-    python3 -m pip install --no-cache-dir -r /tmp/requirements.txt && \
-    apt-get purge -y --auto-remove python3-dev build-essential && \
+    python3 -m venv --system-site-packages $VIRTUAL_ENV && \
+    apt-get install -y --no-install-recommends python3-dev gcc && \
+    python3 -m pip install --no-cache-dir -r ${SJVA_HOME}/requirements.txt && \
+    apt-get purge -y --auto-remove python3-dev gcc && \
     echo "**** install built-in apps ****" && \
     curl -fsSL https://raw.githubusercontent.com/filebrowser/get/master/get.sh | bash && \
     curl -fsSL https://raw.githubusercontent.com/wiserain/rclone/mod/install.sh | bash && \
@@ -64,23 +81,13 @@ RUN \
 # copy libtorrent libs
 COPY --from=libtorrent /libtorrent-build/usr/lib/ /usr/lib/
 
-# SYSTEM ENVs
-ENV PYTHONPATH "/app"
-ENV TZ=Asia/Seoul
-ENV SJVA_RUNNING_TYPE="docker"
-ENV S6_BEHAVIOUR_IF_STAGE2_FAILS=2
-
-# USER ENVs
-ENV RCLONE_CONFIG=/app/data/db/rclone.conf
-ENV PATH="/app/data/command:/app/data/bin:${PATH}"
-
 # copy local files
 COPY root/ /
 
-HEALTHCHECK --interval=30s --timeout=30s --start-period=50s --retries=3 CMD curl 127.0.0.1:$(sqlite3 /app/data/db/sjva.db "select value from system_setting where key='port'")/version || exit 1
+HEALTHCHECK --interval=30s --timeout=30s --start-period=50s --retries=3 CMD curl 127.0.0.1:$(sqlite3 ${SJVA_HOME}/data/db/sjva.db "select value from system_setting where key='port'")/version || exit 1
 
-VOLUME /app/data
-WORKDIR /app/data
+VOLUME ${SJVA_HOME}/data
+WORKDIR ${SJVA_HOME}/data
 EXPOSE 9998 9999
 
 ENTRYPOINT ["/init"]

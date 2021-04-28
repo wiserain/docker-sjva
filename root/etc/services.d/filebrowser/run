@@ -1,6 +1,6 @@
 #!/usr/bin/with-contenv bash
 
-if [ "${USE_FILEBROWSER}" == "true" ]; then
+if [ "${USE_FILEBROWSER}" = "true" ]; then
 	echo "*** starting filebrowser"
 	exec filebrowser -a 0.0.0.0 \
 		-b "${FB_BASEURL:-/}" \
@@ -9,3 +9,6 @@ if [ "${USE_FILEBROWSER}" == "true" ]; then
 		-r "${FB_ROOT:-/}" \
 		> /dev/null 2>&1
 fi
+
+# dummy to demonize this service run
+while true; do sleep 1h; done
