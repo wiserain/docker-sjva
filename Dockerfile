@@ -13,6 +13,7 @@ ENV S6_BEHAVIOUR_IF_STAGE2_FAILS=2 \
 # APP defaults
 ENV SJVA_HOME=/app \
     SJVA_RUNNING_TYPE=docker \
+    SJVA_REPEAT_COUNT=0 \
     SJVA_PORT=9999 \
     REDIS_PORT=46379 \
     USE_CELERY=true \
@@ -34,23 +35,23 @@ RUN \
         `# python3` \
         python3 \
         python3-pip \
-        python3-setuptools \
         python3-wheel \
         python3-gevent \
         python3-lxml \
+        python3-pil \
         `# core` \
-        git \
-        lsof \
         curl \
+        git \
+        sqlite3 \
         tzdata \
-        bash-completion \
         unzip \
         wget \
         `# minimal` \
-        redis \
+        ffmpeg \
         fuse \
+        redis \
         `# util` \
-        sqlite3 \
+        bash-completion \
         jq \
         vnstat \
         `# torrent_info` \

@@ -2,35 +2,25 @@
 
 cd "${SJVA_HOME}"
 
-COUNT=0
-while true;
-do
-    if [ "${USE_CELERY}" = "true" ]; then
-        sleep 1s
-        until celery -A sjva3.celery inspect stats > /dev/null 2>&1; do
-            echo "*** celery is still loading. Sleeping 3s..."
-            sleep 3s
-        done
-    fi
-    echo "*** starting SJVA..."
-    python3 sjva3.py --repeat=${COUNT} --use_gevent=${USE_GEVENT} --use_celery=${USE_CELERY} --port=${SJVA_PORT}
-    
-    RESULT=$?
-    echo "*** SJVA exited with code ${RESULT}"
-    if [ "$RESULT" = "0" ]; then
-        echo '*** restarting all services...'
-        break
-    else
-        echo "*** restarting services..."
-    fi 
-    COUNT=`expr $COUNT + 1`
+if [ "${USE_CELERY}" = "true" ]; then
+    sleep 1s
+    until celery -A sjva3.celery inspect stats > /dev/null 2>&1; do
+        echo "*** celery is still loading. Sleeping 3s..."
+        sleep 3s
+    done
+fi
 
+echo "*** starting SJVA..."
+python3 sjva3.py --repeat=${SJVA_REPEAT_COUNT} --use_gevent=${USE_GEVENT} --use_celery=${USE_CELERY} --port=${SJVA_PORT}
+
+EXITCODE=$?
+echo "*** SJVA exited with code ${EXITCODE}"
+if [ "$EXITCODE" = "0" ]; then
+    echo '*** terminating all services...'
+    s6-svscanctl -t /var/run/s6/services
+else
+    echo "*** restarting services..."
+    printf $(expr $SJVA_REPEAT_COUNT + 1) > /var/run/s6/container_environment/SJVA_REPEAT_COUNT
     /etc/cont-init.d/20-config
-
-    # restart service
     s6-svc -wr -r /var/run/s6/services/celery
-done 
-
-s6-svc -wr -r /var/run/s6/services/celery
-s6-svc -wr -r /var/run/s6/services/redis
-s6-svc -wr -r /var/run/s6/services/filebrowser
+fi 

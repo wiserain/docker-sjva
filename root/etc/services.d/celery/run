@@ -11,6 +11,3 @@ if [ "${USE_CELERY}" = "true" ]; then
 	exec celery -A sjva3.celery \
 		worker -c${CELERY_WORKER_COUNT} --loglevel=info --uid=${PUID:-911} --gid=${PGID:-911} > /dev/null 2>&1
 fi
-
-# dummy to demonize this service run
-while true; do sleep 1h; done

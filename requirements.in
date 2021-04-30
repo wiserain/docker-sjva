@@ -2,7 +2,7 @@ flask
 flask-cors
 flask-login
 flask-sqlalchemy
-sqlalchemy<1.4.0                # via flask-sqlalchemy
+sqlalchemy<1.4.0              # for flask-sqlalchemy
 flask-socketio<5.0.0
 python-socketio<5.0.0
 python-engineio<4.0.0
@@ -13,14 +13,14 @@ pycryptodome
     # core
 psutil
 selenium
-celery[redis]                   # use celery if not USE_CELERY="true"
-gevent==1.4.0                   # ubuntu 20.04
+celery[redis]
+gevent==1.4.0                   # via apt-get
 gevent-websocket
-greenlet==0.4.15                # ubuntu 20.04
-aiohttp                         # telepot
+greenlet==0.4.15                # via apt-get
+pillow==7.0.0                   # via apt-get
     # minimal
-guessit                         # requires babelfish rebulk
-lxml==4.5.0                     # ubuntu 20.04
+guessit
+lxml==4.5.0                     # via apt-get
     # plugin: fileprocess
 PlexAPI
     # plugin: plex

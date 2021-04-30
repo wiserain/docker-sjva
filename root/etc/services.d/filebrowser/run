@@ -9,6 +9,3 @@ if [ "${USE_FILEBROWSER}" = "true" ]; then
 		-r "${FB_ROOT:-/}" \
 		> /dev/null 2>&1
 fi
-
-# dummy to demonize this service run
-while true; do sleep 1h; done

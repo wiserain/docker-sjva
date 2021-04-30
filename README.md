@@ -16,19 +16,16 @@ services:
     restart: 'no'
     network_mode: bridge
     ports:
-      - "9998:9998"                           # Optional if filebrowser used
       - "9999:9999"
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
       - TZ=Asia/Seoul
-      - FB_BASEURL=/filebrowser               # Optional if filebrowser used
-    # privileged: true                        # only when rclone mount used
+    privileged: true                                        # only when rclone mount used
     sysctls:
       net.core.somaxconn: '511'                             # To resolve warning
     volumes:
       - ${DOCKER_ROOT}/sjva/data:/app/data
-      - /var/lib/vnstat:/var/lib/vnstat:ro                  # Optional
     mem_limit: 768m                                         # If you want to limit memory usage
     # logging options
     logging:
@@ -37,6 +34,75 @@ services:
         max-size: "1024k"
         max-file: "5"
 ```
+
+## 이미지 특징
+
+- ubuntu 20.04 기반
+- [s6-overlay](https://github.com/just-containers/s6-overlay)를 이용하여 서비스 관리
+- export.sh을 사용하지 않고 모든 것을 컨테이너 환경 변수로 대체
+- 컨테이너 시작시 동작하는 추가기능 도입(아래 상세 내용 참고)
+
+## 앱 현황
+
+| 이름 | 종류 | 참고 |
+|--|--|--|
+| sqlite3 | apt |  |
+| jq | apt |  |
+| vnstat | apt | vnStat 플러그인 |
+| ffmpeg | apt | vod/tv 플러그인 |
+| libtorrent | 외부 | torrent_info 플러그인 |
+| rclone | 외부 | [mod 버전](https://github.com/wiserain/rclone/releases) |
+| filebrowser | 외부 | [링크](https://github.com/filebrowser/filebrowser/releases) |
+
+상세한 내역은 Dockerfile과 requirements.txt에서 확인할 수 있음.
+
+## 환경변수
+
+### 시스템
+
+컨테이너 환경 설정에 대한 변수들
+
+| 이름 | 기본값 | 참고 |
+|--|--|--|
+| `PUID` / `PGID` | `911` / `911` | celery와 redis를 non-root로 실행함 |
+| `TZ` | `Asia/Seoul` | 타임존 |
+
+### SJVA
+
+SJVA 실행에 관여하는 환경 변수. 미칠 영향을 알지 못하면 기본값을 변경하지 말 것.
+
+| 이름 | 기본값 | 참고 |
+|--|--|--|
+| SJVA_PORT | 9999 |  |
+| REDIS_PORT | 46379 |  |
+| USE_CELERY | true |  |
+| USE_GEVENT | true |  |
+| CELERY_WORKER_COUNT | 2 |  |
+
+### 추가기능 실행
+
+컨테이너 (재)시작시 한번만 실행되며 값을 입력하지 않으면 적용하지 않음.
+
+| 이름 | 기본값 | 참고 |
+|--|--|--|
+| `USE_FILEBROWSER` |  | 파일브라우저를 함께 실행하려면 `true` |
+| `APT_MIRROR` | `archive.ubuntu.com` | apt repository 주소 변경 |
+
+패키지 이름을 `|`로 구분된 문자열로 입력하면 시작 시에 설치를 보장함. 예를들어 `INSTALL_PIP_PKGS=transmissionrpc|youtube_dl`를 입력하면 `pip install transmissionrpc youtube_dl`를 실행함.
+
+| 이름 | 기본값 | 참고 |
+|--|--|--|
+| `INSTALL_APT_PKGS` |  | apt-get install을 실행 |
+| `INSTALL_PIP_PKGS` |  | pip install을 실행 |
+
+경로를 '|'로 구분된 문자열로 입력하면 시작 시에 마운트/파일/폴더의 존재를 확인
+
+| 이름 | 기본값 | 참고 |
+|--|--|--|
+| `WAIT_RCLONE_MNTS` |  | rclone 마운트 경로 |
+| `WAIT_MFS_MNTS` |  | mergerfs 마운트 경로 |
+| `WAIT_ANCHOR_DIRS` |  | 폴더 경로 |
+| `WAIT_ANCHOR_FILES` |  | 파일 경로 |
 
 ## Handling Warnings
 
