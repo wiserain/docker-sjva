@@ -14,15 +14,17 @@ ENV S6_BEHAVIOUR_IF_STAGE2_FAILS=2 \
 ENV SJVA_HOME=/app \
     SJVA_RUNNING_TYPE=docker \
     SJVA_REPEAT_COUNT=0 \
+    CELERY_APP=sjva3.celery \
     SJVA_PORT=9999 \
     REDIS_PORT=46379 \
     USE_CELERY=true \
     USE_GEVENT=true \
-    CELERY_WORKER_COUNT=2
+    CELERY_WORKER_COUNT=2 \
+    PLUGIN_UPDATE_FROM_PYTHON=false
 
 # update PATH
 ENV PATH="$SJVA_HOME/data/command:$SJVA_HOME/data/bin:$PATH" \
-    PYTHONPATH="$SJVA_HOME"
+    PYTHONPATH="${PYTHONPATH:+$PYTHONPATH:}$SJVA_HOME"
 
 COPY requirements.txt ${SJVA_HOME}/
 
@@ -56,6 +58,8 @@ RUN \
         vnstat \
         `# torrent_info` \
         'libboost-python[0-9.]+$' && \
+    if [ ! -e /usr/bin/python ]; then ln -sf /usr/bin/python3 /usr/bin/python; fi && \
+    if [ ! -e /usr/bin/pip ]; then ln -s pip3 /usr/bin/pip; fi && \
     sed -i 's/#user_allow_other/user_allow_other/' /etc/fuse.conf && \
     echo "**** install python packages ****" && \
     apt-get install -y --no-install-recommends python3-dev gcc && \

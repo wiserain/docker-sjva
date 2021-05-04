@@ -3,10 +3,19 @@
 cd "${SJVA_HOME}"
 
 if [ "${USE_CELERY}" = "true" ]; then
-    sleep 1s
-    until celery -A sjva3.celery inspect stats > /dev/null 2>&1; do
-        echo "*** celery is still loading. Sleeping 3s..."
-        sleep 3s
+    n=0
+    m=5
+    while true; do
+        sleep $(((n**2+1)*3))
+        # temporary fix for checking status of celery app
+        # celery v5.0.x does not throw error code properly
+        celery -A ${CELERY_APP} inspect ping 2>&1 | grep -q 'No nodes replied' || break
+        ((n++))
+        if [ "$n" -gt "$m" ]; then
+            s6-svscanctl -t /var/run/s6/services
+        else
+            printf "*** celery is not ready. Retrying in %2ds...(%d/%d)\n" $(((n**2+1)*3)) $n $m
+        fi
     done
 fi
 
