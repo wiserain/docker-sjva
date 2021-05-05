@@ -1,6 +1,6 @@
 #!/usr/bin/with-contenv bash
 
-cd "${SJVA_HOME}"
+cd "${HOME}"
 
 if [ "${USE_CELERY}" = "true" ]; then
     n=0
@@ -10,7 +10,7 @@ if [ "${USE_CELERY}" = "true" ]; then
         # temporary fix for checking status of celery app
         # celery v5.0.x does not throw error code properly
         s6-setuidgid abc \
-            celery -A ${CELERY_APP} inspect ping --timeout=3 2>&1 | grep -q 'No nodes replied' || break
+            celery inspect ping --timeout=3 2>&1 | grep -q 'No nodes replied' || break
         ((n++))
         if [ "$n" -gt "$m" ]; then
             s6-svscanctl -t /var/run/s6/services

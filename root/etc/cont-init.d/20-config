@@ -1,22 +1,26 @@
 #!/usr/bin/with-contenv bash
 set -e
 
-cd "${SJVA_HOME}"
+cd "${HOME}"
 
 # install and update SJVA
-if [ -d "${SJVA_HOME}/.git" ] && [ ! -f "${SJVA_HOME}/.noupdate" ]; then
-  find "${SJVA_HOME}" -name "index.lock" -exec rm -f '{}' \;
-  git reset --quiet --hard HEAD
-  echo "*** checking for updates..."
-  git pull origin main --allow-unrelated-histories --rebase
+if [ -d "${HOME}/.git" ]; then
+  if [ -f "${HOME}/data/.noupdate" ]; then
+    echo "*** skipping updates..."
+  else
+    find "${HOME}" -name "index.lock" -exec rm -f '{}' \;
+    git reset --quiet --hard HEAD
+    echo "*** checking for updates..."
+    git pull origin main --allow-unrelated-histories --rebase
+  fi
 else
-  echo "*** installing SJVA to '${SJVA_HOME}'..."
+  echo "*** installing SJVA to '${HOME}'..."
   git init --quiet > /dev/null
   git remote add origin "https://github.com/soju6jan/SJVA3.git"
   git pull --quiet origin main --depth 1
 fi
 
-plugin_root="${SJVA_HOME}/data/custom"
+plugin_root="${HOME}/data/custom"
 if [ "${PLUGIN_UPDATE_FROM_PYTHON}" = "false" ] && [ -d "${plugin_root}" ]; then
   prune_paths=$(find "${plugin_root}" -name .noupdate -printf "-path %h -o ")
   find "${plugin_root}" -name "index.lock" -exec rm -f {} \;
@@ -34,7 +38,7 @@ fi
 
 # permissions
 chown -R abc:abc \
-  "${SJVA_HOME}"
+  "${HOME}"
 
 # really necessary?
 # chmod 777 .

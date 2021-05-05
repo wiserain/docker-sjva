@@ -19,8 +19,6 @@ services:
     ports:
       - "9999:9999"
     environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
       - TZ=Asia/Seoul
     privileged: true                             # only when rclone mount used
     sysctls:
@@ -41,7 +39,7 @@ services:
 - ubuntu 20.04 기반
 - [s6-overlay](https://github.com/just-containers/s6-overlay)를 이용하여 서비스 관리
 - export.sh을 사용하지 않고 모든 것을 컨테이너 환경 변수로 대체
-- 컨테이너 시작시 동작하는 추가기능 도입(아래 상세 내용 참고)
+- 컨테이너 시작시 동작하는 유용한 기능 추가(아래 상세 내용 참고)
 
 ## 앱 현황
 
@@ -53,13 +51,13 @@ services:
 | ffmpeg | apt | vod/tv 플러그인 |
 | libtorrent | 외부 | torrent_info 플러그인 |
 | rclone | 외부 | [mod 버전](https://github.com/wiserain/rclone/releases) |
-| [filebrowser](https://github.com/filebrowser/filebrowser/releases) | 외부 |  |
+| [filebrowser](https://github.com/filebrowser/filebrowser/releases) | 외부 | 설치는 기본, 실행은 선택 |
 
 상세한 내역은 [Dockerfile](https://github.com/wiserain/docker-sjva/blob/master/Dockerfile)과 [requirements.txt](https://github.com/wiserain/docker-sjva/blob/master/requirements.txt)에서 확인할 수 있음.
 
 ## 환경변수
 
-변경하면 컨테이너를 다시 올려야 합니다. 컨테이너 중지 > 삭제 > 시작
+미칠 영향을 알지 못하면 기본값을 변경하지 말 것. 변경하면 컨테이너를 다시 올려야 합니다. 컨테이너 중지 > 삭제 > 시작
 
 ### 시스템
 
@@ -72,7 +70,7 @@ services:
 
 ### SJVA - 실행
 
-SJVA에 직접 전달/적용되어 SJVA 실행에 관여하는 환경 변수. 미칠 영향을 알지 못하면 기본값을 변경하지 말 것.
+SJVA에 직접 전달/적용되어 SJVA 실행에 관여하는 환경 변수.
 
 | 이름 | 기본값 | 참고 |
 |--|--|--|
@@ -92,7 +90,7 @@ SJVA에 직접 전달/적용되어 SJVA 실행에 관여하는 환경 변수. �
 pip install transmissionrpc youtube_dl
 ```
 
-를 실행함.
+를 root 권한으로 실행함.
 
 | 이름 | 기본값 | 참고 |
 |--|--|--|
@@ -101,7 +99,7 @@ pip install transmissionrpc youtube_dl
 
 ### 추가기능 - 마운트/파일/폴더 체크
 
-경로를 '|'로 구분된 문자열로 입력하면 시작 시에 마운트/파일/폴더의 존재를 확인
+경로를 '|'로 구분된 문자열로 입력하면 시작 시에 마운트/파일/폴더의 존재를 확인. 없으면 무제한 대기
 
 | 이름 | 기본값 | 참고 |
 |--|--|--|

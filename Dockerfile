@@ -14,7 +14,7 @@ ENV S6_BEHAVIOUR_IF_STAGE2_FAILS=2 \
     TZ=Asia/Seoul
 
 # APP defaults
-ENV SJVA_HOME=/app \
+ENV HOME=/app \
     SJVA_RUNNING_TYPE=docker \
     SJVA_REPEAT_COUNT=0 \
     CELERY_APP=sjva3.celery \
@@ -26,10 +26,10 @@ ENV SJVA_HOME=/app \
     PLUGIN_UPDATE_FROM_PYTHON=false
 
 # update PATH
-ENV PATH="$SJVA_HOME/data/command:$SJVA_HOME/data/bin:$PATH" \
-    PYTHONPATH="${PYTHONPATH:+$PYTHONPATH:}$SJVA_HOME"
+ENV PATH="$HOME/data/command:$HOME/data/bin:$HOME/.local/bin:$PATH" \
+    PYTHONPATH="${PYTHONPATH:+$PYTHONPATH:}$HOME"
 
-COPY requirements.txt ${SJVA_HOME}/
+COPY requirements.txt ${HOME}/
 
 RUN \
     echo "**** prepare apt-get ****" && \
@@ -66,7 +66,7 @@ RUN \
     sed -i 's/#user_allow_other/user_allow_other/' /etc/fuse.conf && \
     echo "**** install python packages ****" && \
     apt-get install -y --no-install-recommends python3-dev gcc && \
-    python3 -m pip install --no-cache-dir -r ${SJVA_HOME}/requirements.txt && \
+    python3 -m pip install --no-cache-dir -r ${HOME}/requirements.txt && \
     apt-get purge -y --auto-remove python3-dev gcc && \
     echo "**** install built-in apps ****" && \
     curl -fsSL https://raw.githubusercontent.com/filebrowser/get/master/get.sh | bash && \
@@ -86,10 +86,10 @@ COPY --from=libtorrent /libtorrent-build/usr/lib/ /usr/lib/
 # copy local files
 COPY root/ /
 
-HEALTHCHECK --interval=30s --timeout=30s --start-period=50s --retries=3 CMD curl 127.0.0.1:$(sqlite3 ${SJVA_HOME}/data/db/sjva.db "select value from system_setting where key='port'")/version || exit 1
+HEALTHCHECK --interval=30s --timeout=30s --start-period=50s --retries=3 CMD curl 127.0.0.1:$(sqlite3 ${HOME}/data/db/sjva.db "select value from system_setting where key='port'")/version || exit 1
 
-VOLUME ${SJVA_HOME}/data
-WORKDIR ${SJVA_HOME}/data
+VOLUME ${HOME}/data
+WORKDIR ${HOME}/data
 EXPOSE ${SJVA_PORT}
 
 ENTRYPOINT ["/init"]
