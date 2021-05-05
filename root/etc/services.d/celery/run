@@ -1,13 +1,12 @@
 #!/usr/bin/with-contenv bash
 
 if [ "${USE_CELERY}" = "true" ]; then
-	echo "*** starting celery with ${CELERY_WORKER_COUNT} workers"	
-	# # as root
-	# export C_FORCE_ROOT='true'
-	# exec celery -A sjva3.celery \
-	# 	worker -c${CELERY_WORKER_COUNT} --loglevel=info
-
-	# as root but with uid gid
-	exec celery -A sjva3.celery \
-		worker -c${CELERY_WORKER_COUNT} --loglevel=info --uid=${PUID:-911} --gid=${PGID:-911} > /dev/null 2>&1
+	echo "*** starting celery with ${CELERY_WORKER_COUNT} workers"
+	if [ ${PUID} -eq 0 ] && [ ${PGID} -eq 0 ]; then
+		export C_FORCE_ROOT="true"
+		export PYTHONWARNINGS="ignore::RuntimeWarning"
+	fi
+	exec s6-setuidgid abc \
+		celery -A ${CELERY_APP} \
+			worker -c${CELERY_WORKER_COUNT} --loglevel=INFO > /dev/null 2>&1
 fi

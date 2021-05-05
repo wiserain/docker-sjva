@@ -67,7 +67,7 @@ services:
 
 | 이름 | 기본값 | 참고 |
 |--|--|--|
-| `PUID` / `PGID` | `911` / `911` | celery와 redis를 non-root로 실행함 |
+| `PUID` / `PGID` | `0` / `0` | 앱을 non-root로 실행 (experimental) |
 | `TZ` | `Asia/Seoul` | 타임존 |
 
 ### SJVA - 실행

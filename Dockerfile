@@ -8,6 +8,9 @@ ARG APT_MIRROR="archive.ubuntu.com"
 
 # SYSTEM ENVs
 ENV S6_BEHAVIOUR_IF_STAGE2_FAILS=2 \
+    PYTHONUNBUFFERED=1 \
+    PUID=0 \
+    PGID=0 \
     TZ=Asia/Seoul
 
 # APP defaults
