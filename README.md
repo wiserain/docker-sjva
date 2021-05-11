@@ -70,7 +70,7 @@ services:
 
 ### SJVA - 실행
 
-SJVA에 직접 전달/적용되어 SJVA 실행에 관여하는 환경 변수.
+SJVA 실행에 관여하는 환경 변수. `export.sh`를 사용하지 않고 컨테이너 환경 변수만으로 조정.
 
 | 이름 | 기본값 | 참고 |
 |--|--|--|
@@ -79,8 +79,8 @@ SJVA에 직접 전달/적용되어 SJVA 실행에 관여하는 환경 변수.
 | `USE_CELERY` | `true` |  |
 | `USE_GEVENT` | `true` |  |
 | `CELERY_WORKER_COUNT` | `2` | 동시 실행 가능 프로세스 수 |
-
-`export.sh`를 사용하지 않고 컨테이너 환경 변수만으로 조정 가능합니다.
+| `CELERY_VERBOSE` | `2` | 컨테이너로 전달되는 celery 로그. <br>`0`: quiet `1`: stderr only `2`: stderr+stdout |
+| `CELERY_OPTS` |  | celery에 직접 전달되는 추가 인자. <br>예를 들면, `--loglevel=WARNING` |
 
 ### 추가기능 - 패키지 설치
 
@@ -99,7 +99,7 @@ pip install transmissionrpc youtube_dl
 
 ### 추가기능 - 마운트/파일/폴더 체크
 
-경로를 '|'로 구분된 문자열로 입력하면 시작 시에 마운트/파일/폴더의 존재를 확인. 없으면 무제한 대기
+경로를 `|`로 구분된 문자열로 입력하면 시작 시에 마운트/파일/폴더의 존재를 확인. 없으면 무제한 대기
 
 | 이름 | 기본값 | 참고 |
 |--|--|--|

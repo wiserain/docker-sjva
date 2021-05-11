@@ -2,11 +2,16 @@
 
 if [ "${USE_CELERY}" = "true" ]; then
 	echo "*** starting celery with ${CELERY_WORKER_COUNT} workers"
-	if [ ${PUID} -eq 0 ] && [ ${PGID} -eq 0 ]; then
+	if [ "${PUID}" = "0" ] && [ "${PGID}" = "0" ]; then
 		export C_FORCE_ROOT="true"
 		export PYTHONWARNINGS="ignore::RuntimeWarning"
 	fi
+	if ! expr "${CELERY_VERBOSE:-2}" : '-\?[0-9]\+$' >/dev/null; then
+		export CELERY_VERBOSE=2
+	fi
+	[ "${CELERY_VERBOSE:-2}" -lt 1 ] && exec 2>/dev/null
+	[ "${CELERY_VERBOSE:-2}" -lt 2 ] && exec 1>/dev/null
+	IFS=" " read -r -a RUN_ARRAY <<< "$CELERY_OPTS"
 	exec s6-setuidgid abc \
-		celery worker -c${CELERY_WORKER_COUNT} --loglevel=INFO
-		#  > /dev/null 2>&1
+		celery worker -c${CELERY_WORKER_COUNT} "${RUN_ARRAY[@]}"
 fi

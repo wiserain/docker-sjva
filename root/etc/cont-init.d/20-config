@@ -1,38 +1,39 @@
 #!/usr/bin/with-contenv bash
 set -e
 
+git_pull() {
+  if [ $# -lt 1 ]; then return 1; fi
+  if [ -z "${1}" ] || [ ! -d "${1}" ]; then return 1; fi
+  if [ "$(git -C "${1}" rev-parse --is-inside-work-tree 2>/dev/null)" = "true" ]; then
+    git_dir=$(git -C "${1}" rev-parse --absolute-git-dir 2>/dev/null)
+    find "${git_dir}" -name "index.lock" -exec rm -f {} \;
+    git_repo=$(git -C "${1}" config --get remote.origin.url 2>/dev/null | cut -d/ -f4-)
+    echo "*** checking for updates: ${git_repo%%.git}"
+    git -C "${1}" reset --quiet --hard HEAD
+    RESP=$(git -C "${1}" pull 2>&1 |tee /dev/null; exit ${PIPESTATUS[0]})
+    if ! echo "$RESP" | grep -q "up to date"; then echo -e "$RESP" | ( TAB=$'    ' ; sed "s/^/$TAB/" ); fi
+  fi
+}
+
 cd "${HOME}"
 
-# install and update SJVA
-if [ -d "${HOME}/.git" ]; then
-  if [ -f "${HOME}/data/.noupdate" ]; then
-    echo "*** skipping updates..."
-  else
-    find "${HOME}" -name "index.lock" -exec rm -f '{}' \;
-    git reset --quiet --hard HEAD
-    echo "*** checking for updates..."
-    git pull origin main --allow-unrelated-histories --rebase
-  fi
-else
+# install or update
+if [ "$(git rev-parse --is-inside-work-tree 2>/dev/null)" != "true" ]; then
   echo "*** installing SJVA to '${HOME}'..."
   git init --quiet > /dev/null
-  git remote add origin "https://github.com/soju6jan/SJVA3.git"
-  git pull --quiet origin main --depth 1
+  git remote add origin "https://github.com/soju6jan/SJVA3"
+  git fetch --quiet --depth 1
+  git checkout --quiet -f main
+elif [ ! -f "${HOME}/data/.noupdate" ]; then
+  git_pull "${HOME}"
 fi
 
 plugin_root="${HOME}/data/custom"
 if [ "${PLUGIN_UPDATE_FROM_PYTHON}" = "false" ] && [ -d "${plugin_root}" ]; then
   prune_paths=$(find "${plugin_root}" -name .noupdate -printf "-path %h -o ")
-  find "${plugin_root}" -name "index.lock" -exec rm -f {} \;
   while read -r n; do
-    [ ! -d "${n}" ] && continue
-    if [ "$(git -C "${n}" rev-parse --is-inside-work-tree 2> /dev/null)" != "true" ]; then
-      continue
-    fi
-    echo "*** checking for plugin update: $(basename "${n}")"
-    git -C "${n}" reset --quiet --hard HEAD
-    RESP=$(git -C "${n}" pull 2>&1 |tee /dev/null; exit ${PIPESTATUS[0]})
-    if ! echo "$RESP" | grep -q "up to date"; then echo -e "$RESP" | ( TAB=$'    ' ; sed "s/^/$TAB/" ); fi
+    # sometimes empty string comes in
+    [ -d "${n}" ] && git_pull "${n}"
   done <<<$(find "${plugin_root}" -maxdepth 1 -mindepth 1 -type d \( $prune_paths -false \) -prune -o -type d -print)
 fi
 

@@ -66,6 +66,9 @@ RUN \
     if [ ! -e /usr/bin/python ]; then ln -sf /usr/bin/python3 /usr/bin/python; fi && \
     if [ ! -e /usr/bin/pip ]; then ln -s pip3 /usr/bin/pip; fi && \
     sed -i 's/#user_allow_other/user_allow_other/' /etc/fuse.conf && \
+    echo "**** setting locale to en_US.UTF-8 ****" && \
+    locale-gen en_US.UTF-8 && \
+    update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8 && \
     echo "**** install python packages ****" && \
     apt-get install -y --no-install-recommends python3-dev gcc && \
     python3 -m pip install --no-cache-dir -r ${HOME}/requirements.txt && \
