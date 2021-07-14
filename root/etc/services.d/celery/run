@@ -1,5 +1,7 @@
 #!/usr/bin/with-contenv bash
 
+cd "${HOME}"
+
 if [ "${USE_CELERY}" = "true" ]; then
 	echo "*** starting celery with ${CELERY_WORKER_COUNT} workers"
 	if [ "${PUID}" = "0" ] && [ "${PGID}" = "0" ]; then
