@@ -23,6 +23,8 @@ pillow==7.0.0                   # via apt-get
 guessit
 lxml==4.5.0                     # via apt-get
     # plugin: fileprocess
+pyyaml
+    # plugin: fileprocess beta
 PlexAPI
     # plugin: plex
 sqlitedict
