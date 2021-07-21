@@ -1,4 +1,4 @@
-FROM ghcr.io/wiserain/libtorrent:latest-ubuntu20.04-py3 AS libtorrent
+FROM ghcr.io/wiserain/libtorrent:latest-ubuntu20.04 AS libtorrent
 FROM ghcr.io/linuxserver/baseimage-ubuntu:focal
 LABEL maintainer="wiserain"
 LABEL org.opencontainers.image.source https://github.com/wiserain/docker-sjva

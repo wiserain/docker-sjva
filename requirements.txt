@@ -60,11 +60,11 @@ gevent==1.4.0
     #   gevent-websocket
 google-api-core==1.31.0
     # via google-api-python-client
-google-api-python-client==2.13.0
+google-api-python-client==2.14.0
     # via -r requirements.in
 google-auth-httplib2==0.1.0
     # via google-api-python-client
-google-auth==1.33.0
+google-auth==1.33.1
     # via
     #   google-api-core
     #   google-api-python-client
@@ -151,11 +151,16 @@ rebulk==3.0.1
     # via guessit
 redis==3.5.3
     # via celery
+requests-cache==0.5.2
+    # via tvdb-api
 requests==2.26.0
     # via
     #   discord-webhook
     #   google-api-core
     #   plexapi
+    #   requests-cache
+    #   tmdbsimple
+    #   tvdb-api
 rsa==4.7.2
     # via
     #   google-auth
@@ -181,6 +186,10 @@ sqlalchemy==1.3.24
     #   -r requirements.in
     #   flask-sqlalchemy
 sqlitedict==1.7.0
+    # via -r requirements.in
+tmdbsimple==2.8.0
+    # via -r requirements.in
+tvdb-api==3.1.0
     # via -r requirements.in
 tzlocal==2.1
     # via apscheduler

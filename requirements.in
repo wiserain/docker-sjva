@@ -31,3 +31,6 @@ sqlitedict
 oauth2client
 google-api-python-client
     # plugin: gdrive scan
+tmdbsimple
+tvdb-api
+    # plugin: lib_metadata
