@@ -19,6 +19,7 @@ gevent==1.4.0                   # via apt-get
 gevent-websocket
 greenlet==0.4.15                # via apt-get
 pillow==7.0.0                   # via apt-get
+papagopy
     # minimal
 guessit
 lxml==4.5.0                     # via apt-get
@@ -34,3 +35,6 @@ google-api-python-client
 tmdbsimple
 tvdb-api
     # plugin: lib_metadata
+xmltodict
+watchdog
+    # plugin: plex_mate

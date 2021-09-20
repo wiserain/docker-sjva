@@ -55,7 +55,7 @@ if [ -z ${WAIT_ANCHOR_FILES+x} ]; then
     for WAIT_ANCHOR_FILE in "${WAIT_ANCHOR_FILES[@]}"; do
         # Loop until desired file is found
         until [ -f "${WAIT_ANCHOR_FILE}" ]; do
-            echo "ERROR: file (${WAIT_ANCHOR_FILE}) not found. Retrying in 30s ..."
+            echo "ERROR: directory (${WAIT_ANCHOR_FILE}) not found. Retrying in 30s ..."
             sleep 30
         done
     done
