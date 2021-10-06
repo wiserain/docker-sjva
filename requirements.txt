@@ -6,13 +6,13 @@
 #
 amqp==5.0.6
     # via kombu
-apscheduler==3.7.0
+apscheduler==3.8.0
     # via -r requirements.in
 babelfish==0.6.0
     # via guessit
 billiard==3.6.4.0
     # via celery
-cachetools==4.2.2
+cachetools==4.2.4
     # via google-auth
 celery[redis]==5.1.2
     # via -r requirements.in
@@ -20,7 +20,7 @@ certifi==2021.5.30
     # via requests
 charset-normalizer==2.0.6
     # via requests
-click-didyoumean==0.0.3
+click-didyoumean==0.3.0
     # via celery
 click-plugins==1.1.1
     # via celery
@@ -58,13 +58,13 @@ gevent==1.4.0
     # via
     #   -r requirements.in
     #   gevent-websocket
-google-api-core==2.0.1
+google-api-core==2.1.0
     # via google-api-python-client
-google-api-python-client==2.21.0
+google-api-python-client==2.24.0
     # via -r requirements.in
 google-auth-httplib2==0.1.0
     # via google-api-python-client
-google-auth==2.1.0
+google-auth==2.2.1
     # via
     #   google-api-core
     #   google-api-python-client
@@ -104,11 +104,11 @@ papagopy==0.1.6
     # via -r requirements.in
 pillow==7.0.0
     # via -r requirements.in
-plexapi==4.7.1
+plexapi==4.7.2
     # via -r requirements.in
 prompt-toolkit==3.0.20
     # via click-repl
-protobuf==3.18.0
+protobuf==3.18.1
     # via
     #   google-api-core
     #   googleapis-common-protos
@@ -123,7 +123,7 @@ pyasn1==0.4.8
     #   oauth2client
     #   pyasn1-modules
     #   rsa
-pycryptodome==3.10.1
+pycryptodome==3.10.4
     # via -r requirements.in
 pyparsing==2.4.7
     # via httplib2
@@ -137,7 +137,7 @@ python-socketio==4.6.1
     # via
     #   -r requirements.in
     #   flask-socketio
-pytz==2021.1
+pytz==2021.3
     # via
     #   apscheduler
     #   celery
@@ -189,7 +189,7 @@ tzlocal==2.1
     # via apscheduler
 uritemplate==3.0.1
     # via google-api-python-client
-urllib3==1.26.6
+urllib3==1.26.7
     # via
     #   requests
     #   selenium
@@ -198,7 +198,7 @@ vine==5.0.0
     #   amqp
     #   celery
     #   kombu
-watchdog==2.1.5
+watchdog==2.1.6
     # via -r requirements.in
 wcwidth==0.2.5
     # via prompt-toolkit
