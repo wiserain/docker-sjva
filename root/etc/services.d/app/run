@@ -15,7 +15,7 @@ if [ "${USE_CELERY}" = "true" ]; then
         if [ "$n" -gt "$m" ]; then
             s6-svscanctl -t /var/run/s6/services
         else
-            printf "*** celery is not ready. Retrying in %2ds...(%d/%d)\n" $(((n**2+1)*3)) $n $m
+            printf "*** celery is not ready. Retrying in %2ds...(%d/%d)\n" $(((n**2+1)*5)) $n $m
         fi
     done
 fi

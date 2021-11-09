@@ -14,7 +14,7 @@ pycryptodome
     # core
 psutil
 selenium
-celery[redis]
+celery[redis]<5.2.0
 gevent==1.4.0                   # via apt-get
 gevent-websocket
 greenlet==0.4.15                # via apt-get
