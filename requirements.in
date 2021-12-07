@@ -11,6 +11,7 @@ apscheduler
 discord-webhook
 markdown
 pycryptodome
+cryptography<35.0.0             # rust compiler required for higher version
     # core
 psutil
 selenium

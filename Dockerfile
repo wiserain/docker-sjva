@@ -70,9 +70,10 @@ RUN \
     locale-gen en_US.UTF-8 && \
     update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8 && \
     echo "**** install python packages ****" && \
-    apt-get install -y --no-install-recommends python3-dev gcc && \
+    apt-get install -y --no-install-recommends python3-dev gcc libssl-dev libffi-dev && \
+    CRYPTOGRAPHY_DONT_BUILD_RUST=1 \
     python3 -m pip install --no-cache-dir -r ${HOME}/requirements.txt && \
-    apt-get purge -y --auto-remove python3-dev gcc && \
+    apt-get purge -y --auto-remove python3-dev gcc libssl-dev libffi-dev && \
     echo "**** install built-in apps ****" && \
     curl -fsSL https://raw.githubusercontent.com/filebrowser/get/master/get.sh | bash && \
     curl -fsSL https://raw.githubusercontent.com/wiserain/rclone/mod/install.sh | bash && \
