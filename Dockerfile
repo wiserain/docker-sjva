@@ -86,6 +86,9 @@ RUN \
         /var/lib/apt/lists/* \
         /var/tmp/*
 
+ADD https://raw.githubusercontent.com/by275/docker-scripts/master/root/etc/cont-init.d/20-install-pkg /etc/cont-init.d/30-install-pkg
+ADD https://raw.githubusercontent.com/by275/docker-scripts/master/root/etc/cont-init.d/30-wait-for-mnt /etc/cont-init.d/40-wait-for-mnt
+
 # copy libtorrent libs
 COPY --from=libtorrent /libtorrent-build/usr/lib/ /usr/lib/
 
