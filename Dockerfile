@@ -1,4 +1,19 @@
 FROM ghcr.io/wiserain/libtorrent:latest-ubuntu20.04 AS libtorrent
+
+FROM ghcr.io/linuxserver/baseimage-ubuntu:focal AS builder
+
+ADD https://raw.githubusercontent.com/by275/docker-scripts/master/root/etc/cont-init.d/20-install-pkg /root/etc/cont-init.d/30-install-pkg
+ADD https://raw.githubusercontent.com/by275/docker-scripts/master/root/etc/cont-init.d/30-wait-for-mnt /root/etc/cont-init.d/40-wait-for-mnt
+ADD https://raw.githubusercontent.com/by275/docker-scripts/master/root/etc/cont-init.d/90-custom-folders /root/etc/cont-init.d/90-custom-folders
+ADD https://raw.githubusercontent.com/by275/docker-scripts/master/root/etc/cont-init.d/99-custom-scripts /root/etc/cont-init.d/99-custom-scripts
+
+# copy libtorrent libs
+COPY --from=libtorrent /libtorrent-build/usr/lib/ /root/usr/lib/
+
+# add local files
+COPY root/ /root/
+
+
 FROM ghcr.io/linuxserver/baseimage-ubuntu:focal
 LABEL maintainer="wiserain"
 LABEL org.opencontainers.image.source https://github.com/wiserain/docker-sjva
@@ -86,14 +101,8 @@ RUN \
         /var/lib/apt/lists/* \
         /var/tmp/*
 
-ADD https://raw.githubusercontent.com/by275/docker-scripts/master/root/etc/cont-init.d/20-install-pkg /etc/cont-init.d/30-install-pkg
-ADD https://raw.githubusercontent.com/by275/docker-scripts/master/root/etc/cont-init.d/30-wait-for-mnt /etc/cont-init.d/40-wait-for-mnt
-
-# copy libtorrent libs
-COPY --from=libtorrent /libtorrent-build/usr/lib/ /usr/lib/
-
-# copy local files
-COPY root/ /
+# add build artifacts
+COPY --from=builder /root/ /
 
 HEALTHCHECK --interval=30s --timeout=30s --start-period=50s --retries=3 CMD curl 127.0.0.1:$(sqlite3 ${HOME}/data/db/sjva.db "select value from system_setting where key='port'")/version || exit 1
 

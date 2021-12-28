@@ -1,7 +1,5 @@
 #!/usr/bin/with-contenv bash
 
-if [ "${USE_CELERY}" = "true" ]; then
-	echo "*** starting redis-server@${REDIS_PORT}"
-	exec s6-setuidgid redis \
-		redis-server --port ${REDIS_PORT} --logfile /var/log/redis/redis-server.log > /dev/null 2>&1
-fi
+echo "*** starting redis-server@${REDIS_PORT}"
+exec s6-setuidgid redis \
+	redis-server --port ${REDIS_PORT} --logfile /var/log/redis/redis-server.log > /dev/null 2>&1
