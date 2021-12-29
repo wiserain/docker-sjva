@@ -1,20 +1,22 @@
 FROM ghcr.io/wiserain/libtorrent:latest-ubuntu20.04 AS libtorrent
 
-FROM ghcr.io/linuxserver/baseimage-ubuntu:focal AS builder
+FROM ghcr.io/linuxserver/baseimage-ubuntu:focal AS base
+FROM base AS builder
 
-ADD https://raw.githubusercontent.com/by275/docker-scripts/master/root/etc/cont-init.d/20-install-pkg /root/etc/cont-init.d/30-install-pkg
-ADD https://raw.githubusercontent.com/by275/docker-scripts/master/root/etc/cont-init.d/30-wait-for-mnt /root/etc/cont-init.d/40-wait-for-mnt
-ADD https://raw.githubusercontent.com/by275/docker-scripts/master/root/etc/cont-init.d/90-custom-folders /root/etc/cont-init.d/90-custom-folders
-ADD https://raw.githubusercontent.com/by275/docker-scripts/master/root/etc/cont-init.d/99-custom-scripts /root/etc/cont-init.d/99-custom-scripts
+ADD https://raw.githubusercontent.com/by275/docker-scripts/master/root/etc/cont-init.d/20-install-pkg /bar/etc/cont-init.d/30-install-pkg
+ADD https://raw.githubusercontent.com/by275/docker-scripts/master/root/etc/cont-init.d/30-wait-for-mnt /bar/etc/cont-init.d/40-wait-for-mnt
+ADD https://raw.githubusercontent.com/by275/docker-scripts/master/root/etc/cont-init.d/90-custom-folders /bar/etc/cont-init.d/90-custom-folders
+ADD https://raw.githubusercontent.com/by275/docker-scripts/master/root/etc/cont-init.d/99-custom-scripts /bar/etc/cont-init.d/99-custom-scripts
 
 # copy libtorrent libs
-COPY --from=libtorrent /libtorrent-build/usr/lib/ /root/usr/lib/
+COPY --from=libtorrent /libtorrent-build/usr/lib/ /bar/usr/lib/
 
 # add local files
-COPY root/ /root/
+COPY root/ /bar/
+COPY requirements.txt /bar/app/
 
 
-FROM ghcr.io/linuxserver/baseimage-ubuntu:focal
+FROM base
 LABEL maintainer="wiserain"
 LABEL org.opencontainers.image.source https://github.com/wiserain/docker-sjva
 
@@ -28,10 +30,8 @@ ENV S6_BEHAVIOUR_IF_STAGE2_FAILS=2 \
     PIP_NO_CACHE_DIR=1 \
     PUID=0 \
     PGID=0 \
-    TZ=Asia/Seoul
-
-# APP defaults
-ENV HOME=/app \
+    TZ=Asia/Seoul \
+    HOME=/app \
     SJVA_RUNNING_TYPE=docker \
     SJVA_REPEAT_COUNT=0 \
     CELERY_APP=sjva3.celery \
@@ -40,13 +40,12 @@ ENV HOME=/app \
     USE_CELERY=true \
     USE_GEVENT=true \
     CELERY_WORKER_COUNT=2 \
-    PLUGIN_UPDATE_FROM_PYTHON=false
-
-# update PATH
-ENV PATH="$HOME/data/command:$HOME/data/bin:$HOME/.local/bin:$PATH" \
+    PLUGIN_UPDATE_FROM_PYTHON=false \
+    PATH="$HOME/data/command:$HOME/data/bin:$HOME/.local/bin:$PATH" \
     PYTHONPATH="${PYTHONPATH:+$PYTHONPATH:}$HOME"
 
-COPY requirements.txt ${HOME}/
+# add build artifacts
+COPY --from=builder /bar/ /
 
 RUN \
     echo "**** prepare apt-get ****" && \
@@ -101,10 +100,8 @@ RUN \
         /var/lib/apt/lists/* \
         /var/tmp/*
 
-# add build artifacts
-COPY --from=builder /root/ /
-
-HEALTHCHECK --interval=30s --timeout=30s --start-period=50s --retries=3 CMD curl 127.0.0.1:$(sqlite3 ${HOME}/data/db/sjva.db "select value from system_setting where key='port'")/version || exit 1
+HEALTHCHECK --interval=30s --timeout=30s --start-period=50s --retries=3 \
+    CMD curl 127.0.0.1:$(sqlite3 ${HOME}/data/db/sjva.db "select value from system_setting where key='port'")/version || exit 1
 
 VOLUME ${HOME}/data
 WORKDIR ${HOME}/data
