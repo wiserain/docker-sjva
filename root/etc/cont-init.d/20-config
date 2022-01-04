@@ -51,8 +51,5 @@ if [ ! "${USE_FILEBROWSER}" = "true" ]; then
 fi
 
 # permissions
-chown -R abc:abc \
-  "${HOME}"
-
-# really necessary?
-# chmod 777 .
+find "${HOME}" \! \( -uid $(id -u abc) -gid $(id -g abc) \) -print0 | \
+    xargs -0 --no-run-if-empty chown -h abc:abc
