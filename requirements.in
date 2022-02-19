@@ -12,6 +12,9 @@ discord-webhook
 markdown
 pycryptodome
 cryptography<35.0.0             # rust compiler required for higher version
+pyyaml                          # plugin/fileprocess_ktv lib/system/logic_terminal.py
+markupsafe<2.1.0                # temporary fix
+pyopenssl<22.0.0                # temporary fix
     # core
 psutil
 selenium
@@ -20,21 +23,22 @@ gevent==1.4.0                   # via apt-get
 gevent-websocket
 greenlet==0.4.15                # via apt-get
 pillow==7.0.0                   # via apt-get
+lxml==4.5.0                     # via apt-get
     # minimal
 guessit
-lxml==4.5.0                     # via apt-get
-    # plugin: fileprocess
-pyyaml
-    # plugin: fileprocess beta
+    # plugin/fileprocess_movie
 PlexAPI
-    # plugin: plex
+    # plugin/plex
 sqlitedict
 oauth2client
 google-api-python-client
-    # plugin: gdrive scan
+    # plugin/gdrive_scan
 tmdbsimple
 tvdb-api
-    # plugin: lib_metadata
+    # plugin/lib_metadata
 xmltodict
 watchdog
-    # plugin: plex_mate
+    # plugin/plex_mate
+gspread
+gspread_formatting
+    # lib2/support/tool
