@@ -6,7 +6,7 @@
 #
 amqp==5.0.9
     # via kombu
-apscheduler==3.8.1
+apscheduler==3.9.0.post1
     # via -r requirements.in
 async-generator==1.10
     # via
@@ -83,7 +83,7 @@ gevent-websocket==0.10.1
     # via -r requirements.in
 google-api-core==2.5.0
     # via google-api-python-client
-google-api-python-client==2.37.0
+google-api-python-client==2.38.0
     # via -r requirements.in
 google-auth==2.6.0
     # via
@@ -94,9 +94,9 @@ google-auth==2.6.0
     #   gspread
 google-auth-httplib2==0.1.0
     # via google-api-python-client
-google-auth-oauthlib==0.4.6
+google-auth-oauthlib==0.5.0
     # via gspread
-googleapis-common-protos==1.54.0
+googleapis-common-protos==1.55.0
     # via google-api-core
 greenlet==0.4.15
     # via
@@ -132,7 +132,7 @@ jinja2==2.11.3
     # via flask
 kombu==5.2.3
     # via celery
-lxml==4.5.0
+lxml==4.8.0
     # via -r requirements.in
 markdown==3.3.6
     # via
@@ -150,7 +150,7 @@ outcome==1.1.0
     # via trio
 packaging==21.3
     # via redis
-pillow==7.0.0
+pillow==9.0.1
     # via -r requirements.in
 plexapi==4.9.2
     # via -r requirements.in
@@ -183,6 +183,8 @@ pyparsing==3.0.7
     # via
     #   httplib2
     #   packaging
+pysocks==1.7.1
+    # via urllib3
 python-dateutil==2.8.2
     # via guessit
 python-engineio==3.14.2
@@ -222,7 +224,7 @@ rsa==4.8
     # via
     #   google-auth
     #   oauth2client
-selenium==4.1.0
+selenium==4.1.2
     # via -r requirements.in
 six==1.16.0
     # via
@@ -248,7 +250,7 @@ sqlitedict==1.7.0
     # via -r requirements.in
 tmdbsimple==2.9.1
     # via -r requirements.in
-trio==0.19.0
+trio==0.20.0
     # via
     #   selenium
     #   trio-websocket
@@ -262,7 +264,7 @@ tzlocal==4.1
     # via apscheduler
 uritemplate==4.1.1
     # via google-api-python-client
-urllib3[secure]==1.26.8
+urllib3[secure,socks]==1.26.8
     # via
     #   requests
     #   selenium

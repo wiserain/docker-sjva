@@ -13,9 +13,49 @@ COPY --from=libtorrent /libtorrent-build/usr/lib/ /bar/usr/lib/
 
 # add local files
 COPY root/ /bar/
-COPY requirements.txt /bar/app/
+COPY requirements.txt /tmp/
 
+ARG DEBIAN_FRONTEND="noninteractive"
+ARG APT_MIRROR="archive.ubuntu.com"
 
+RUN \
+    echo "**** prepare apt-get ****" && \
+    sed -i "s/archive.ubuntu.com/$APT_MIRROR/g" /etc/apt/sources.list && \
+    apt-get update -yqq && apt-get install -yqq --no-install-recommends apt-utils && \
+    echo "**** install apt packages ****" && \
+    apt-get install -y --no-install-recommends \
+        `# python3` \
+        python3 \
+        python3-pip \
+        python3-wheel \
+        python3-gevent
+RUN echo "**** install depencencies for cffi cryptography ****" && \
+    apt-get install -y --no-install-recommends \
+        python3-dev gcc libssl-dev libffi-dev
+RUN echo "**** install depencencies for lxml ****" && \
+    apt-get install -y --no-install-recommends libxml2-dev libxslt1-dev
+RUN echo "**** install depencencies for pil ****" && \
+    apt-get install -y --no-install-recommends \
+        libtiff5-dev libjpeg8-dev libopenjp2-7-dev zlib1g-dev \
+        libfreetype6-dev liblcms2-dev libwebp-dev tcl8.6-dev tk8.6-dev python3-tk \
+        libharfbuzz-dev libfribidi-dev libxcb1-dev
+RUN echo "**** install pip packages ****" && \
+    CRYPTOGRAPHY_DONT_BUILD_RUST=1 \
+    python3 -m pip install --root=/bar -r /tmp/requirements.txt
+RUN echo "**** install docker-ce-cli ****" && \
+    apt-get install -y --no-install-recommends \
+        ca-certificates \
+        curl \
+        gnupg \
+        lsb-release && \
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg && \
+    echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null && \
+    apt-get update && apt-get install -y --no-install-recommends docker-ce-cli && \
+    mkdir /bar/usr/bin -p && mv /usr/bin/docker /bar/usr/bin/
+
+# 
+# release
+# 
 FROM base
 LABEL maintainer="wiserain"
 LABEL org.opencontainers.image.source https://github.com/wiserain/docker-sjva
@@ -58,8 +98,6 @@ RUN \
         python3-pip \
         python3-wheel \
         python3-gevent \
-        python3-lxml \
-        python3-pil \
         `# core` \
         curl \
         git \
@@ -83,11 +121,6 @@ RUN \
     echo "**** setting locale to en_US.UTF-8 ****" && \
     locale-gen en_US.UTF-8 && \
     update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8 && \
-    echo "**** install python packages ****" && \
-    apt-get install -y --no-install-recommends python3-dev gcc libssl-dev libffi-dev && \
-    CRYPTOGRAPHY_DONT_BUILD_RUST=1 \
-    python3 -m pip install --no-cache-dir -r ${HOME}/requirements.txt && \
-    apt-get purge -y --auto-remove python3-dev gcc libssl-dev libffi-dev && \
     echo "**** install built-in apps ****" && \
     curl -fsSL https://raw.githubusercontent.com/filebrowser/get/master/get.sh | bash && \
     curl -fsSL https://raw.githubusercontent.com/wiserain/rclone/mod/install.sh | bash && \
