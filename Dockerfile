@@ -41,7 +41,7 @@ RUN echo "**** install depencencies for pil ****" && \
         libharfbuzz-dev libfribidi-dev libxcb1-dev
 RUN echo "**** install pip packages ****" && \
     CRYPTOGRAPHY_DONT_BUILD_RUST=1 \
-    python3 -m pip install --root=/bar -r /tmp/requirements.txt
+    python3 -m pip install --root=/bar -r /tmp/requirements.txt --no-warn-script-location
 RUN echo "**** install docker-ce-cli ****" && \
     apt-get install -y --no-install-recommends \
         ca-certificates \
