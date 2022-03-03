@@ -1,5 +1,9 @@
 #!/usr/bin/with-contenv bash
 
+if [ ! "${USE_FILEBROWSER}" = "true" ]; then
+	s6-svc -d .
+fi
+
 echo "*** starting filebrowser"
 exec s6-setuidgid abc \
 	filebrowser -a 0.0.0.0 \

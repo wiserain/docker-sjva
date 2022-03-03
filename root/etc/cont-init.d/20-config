@@ -41,15 +41,6 @@ if [ "${PLUGIN_UPDATE_FROM_PYTHON}" = "false" ] && [ -d "${plugin_root}" ]; then
   done <<<$(find "${plugin_root}" -maxdepth 1 -mindepth 1 -type d \( $prune_paths -false \) -prune -o -type d -print)
 fi
 
-# destroy unused services
-if [ ! "${USE_CELERY}" = "true" ]; then
-    rm -rf /etc/services.d/celery
-    rm -rf /etc/services.d/redis
-fi
-if [ ! "${USE_FILEBROWSER}" = "true" ]; then
-    rm -rf /etc/services.d/filebrowser
-fi
-
 # permissions
 find "${HOME}" \! \( -uid $(id -u abc) -gid $(id -g abc) \) -print0 | \
     xargs -0 --no-run-if-empty chown -h abc:abc
