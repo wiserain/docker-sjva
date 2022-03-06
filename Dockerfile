@@ -98,6 +98,8 @@ RUN \
         python3-pip \
         python3-wheel \
         python3-gevent \
+        `# python3` \
+        libxml2 libxslt1.1 \
         `# core` \
         curl \
         git \
