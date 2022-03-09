@@ -1,14 +1,14 @@
 #!/usr/bin/with-contenv bash
 
 if [ ! "${USE_FILEBROWSER}" = "true" ]; then
-	s6-svc -d .
+    s6-svc -d .
 fi
 
 echo "*** starting filebrowser"
 exec s6-setuidgid abc \
-	filebrowser -a 0.0.0.0 \
-		-b "${FB_BASEURL:-/}" \
-		-d "${FB_DATABASE:-/app/data/db/filebrowser.db}" \
-		-p "${FB_PORT:-9998}" \
-		-r "${FB_ROOT:-/}" \
-		> /dev/null 2>&1
+    filebrowser -a 0.0.0.0 \
+        -b "${FB_BASEURL:-/}" \
+        -d "${FB_DATABASE:-/app/data/db/filebrowser.db}" \
+        -p "${FB_PORT:-9998}" \
+        -r "${FB_ROOT:-/}" \
+        > /dev/null 2>&1

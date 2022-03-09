@@ -84,7 +84,7 @@ SJVA 실행에 관여하는 환경 변수. `export.sh`를 사용하지 않고 �
 
 ### 추가기능 - 패키지 설치
 
-패키지 이름을 `|`로 구분된 문자열로 입력하면 시작 시에 설치를 보장함. 예를들어 `INSTALL_PIP_PKGS=transmissionrpc|youtube_dl`를 입력하면 
+패키지 이름을 `|`로 구분된 문자열로 입력하면 시작 시에 설치를 보장함. 예를들어 `INSTALL_PIP_PKGS=transmissionrpc|youtube_dl`를 입력하면
 
 ```bash
 pip install transmissionrpc youtube_dl
