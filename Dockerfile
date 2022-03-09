@@ -1,6 +1,12 @@
-FROM ghcr.io/wiserain/libtorrent:latest-ubuntu20.04 AS libtorrent
+ARG UBUNTU_VER=20.04
 
-FROM ghcr.io/linuxserver/baseimage-ubuntu:focal AS base
+FROM ghcr.io/linuxserver/baseimage-ubuntu:${UBUNTU_VER} AS base
+FROM ghcr.io/wiserain/libtorrent:latest-ubuntu${UBUNTU_VER} AS libtorrent
+FROM ghcr.io/by275/prebuilt:ubuntu${UBUNTU_VER} AS prebuilt
+
+# 
+# BUILD
+# 
 FROM base AS builder
 
 ADD https://raw.githubusercontent.com/by275/docker-scripts/master/root/etc/cont-init.d/20-install-pkg /bar/etc/cont-init.d/30-install-pkg
@@ -10,6 +16,8 @@ ADD https://raw.githubusercontent.com/by275/docker-scripts/master/root/etc/cont-
 
 # copy libtorrent libs
 COPY --from=libtorrent /libtorrent-build/usr/lib/ /bar/usr/lib/
+# copy docker-cli
+COPY --from=prebuilt /docker-cli/ /bar/
 
 # add local files
 COPY root/ /bar/
@@ -42,16 +50,6 @@ RUN echo "**** install depencencies for pil ****" && \
 RUN echo "**** install pip packages ****" && \
     CRYPTOGRAPHY_DONT_BUILD_RUST=1 \
     python3 -m pip install --root=/bar -r /tmp/requirements.txt --no-warn-script-location
-RUN echo "**** install docker-ce-cli ****" && \
-    apt-get install -y --no-install-recommends \
-        ca-certificates \
-        curl \
-        gnupg \
-        lsb-release && \
-    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg && \
-    echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null && \
-    apt-get update && apt-get install -y --no-install-recommends docker-ce-cli && \
-    mkdir /bar/usr/bin -p && mv /usr/bin/docker /bar/usr/bin/
 
 # 
 # release
