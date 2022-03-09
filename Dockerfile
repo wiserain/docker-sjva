@@ -1,6 +1,6 @@
 ARG UBUNTU_VER=20.04
 
-FROM ghcr.io/linuxserver/baseimage-ubuntu:${UBUNTU_VER} AS base
+FROM ghcr.io/linuxserver/baseimage-ubuntu:focal AS base
 FROM ghcr.io/wiserain/libtorrent:latest-ubuntu${UBUNTU_VER} AS libtorrent
 FROM ghcr.io/by275/prebuilt:ubuntu${UBUNTU_VER} AS prebuilt
 

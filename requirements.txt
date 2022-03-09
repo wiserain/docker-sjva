@@ -81,7 +81,7 @@ gevent==1.4.0
     #   gevent-websocket
 gevent-websocket==0.10.1
     # via -r requirements.in
-google-api-core==2.6.0
+google-api-core==2.7.0
     # via google-api-python-client
 google-api-python-client==2.39.0
     # via -r requirements.in
