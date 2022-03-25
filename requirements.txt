@@ -12,6 +12,8 @@ async-generator==1.10
     # via
     #   trio
     #   trio-websocket
+async-timeout==4.0.2
+    # via redis
 attrs==21.4.0
     # via
     #   outcome
@@ -83,7 +85,7 @@ gevent-websocket==0.10.1
     # via -r requirements.in
 google-api-core==2.7.1
     # via google-api-python-client
-google-api-python-client==2.41.0
+google-api-python-client==2.42.0
     # via -r requirements.in
 google-auth==2.6.2
     # via
@@ -195,7 +197,7 @@ python-socketio==4.6.1
     # via
     #   -r requirements.in
     #   flask-socketio
-pytz==2021.3
+pytz==2022.1
     # via
     #   apscheduler
     #   celery
@@ -205,7 +207,7 @@ pyyaml==6.0
     # via -r requirements.in
 rebulk==3.1.0
     # via guessit
-redis==4.1.4
+redis==4.2.0
     # via celery
 requests==2.27.1
     # via
@@ -258,6 +260,8 @@ trio-websocket==0.9.2
     # via selenium
 tvdb-api==3.1.0
     # via -r requirements.in
+typing-extensions==4.1.1
+    # via redis
 tzdata==2022.1
     # via pytz-deprecation-shim
 tzlocal==4.1
