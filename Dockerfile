@@ -32,23 +32,13 @@ RUN \
     apt-get update -yqq && apt-get install -yqq --no-install-recommends apt-utils && \
     echo "**** install apt packages ****" && \
     apt-get install -y --no-install-recommends \
-        `# python3` \
         python3 \
         python3-pip \
-        python3-wheel \
-        python3-gevent
-RUN echo "**** install depencencies for cffi cryptography ****" && \
+        python3-wheel
+RUN echo "**** install depencencies for psutil ****" && \
     apt-get install -y --no-install-recommends \
-        python3-dev gcc libssl-dev libffi-dev
-RUN echo "**** install depencencies for lxml ****" && \
-    apt-get install -y --no-install-recommends libxml2-dev libxslt1-dev
-RUN echo "**** install depencencies for pil ****" && \
-    apt-get install -y --no-install-recommends \
-        libtiff5-dev libjpeg8-dev libopenjp2-7-dev zlib1g-dev \
-        libfreetype6-dev liblcms2-dev libwebp-dev tcl8.6-dev tk8.6-dev python3-tk \
-        libharfbuzz-dev libfribidi-dev libxcb1-dev
+        python3-dev gcc
 RUN echo "**** install pip packages ****" && \
-    CRYPTOGRAPHY_DONT_BUILD_RUST=1 \
     python3 -m pip install --root=/bar -r /tmp/requirements.txt --no-warn-script-location
 
 # 
@@ -95,9 +85,6 @@ RUN \
         python3 \
         python3-pip \
         python3-wheel \
-        python3-gevent \
-        `# python3` \
-        libxml2 libxslt1.1 \
         `# core` \
         curl \
         git \

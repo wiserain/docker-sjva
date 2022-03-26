@@ -12,8 +12,6 @@ async-generator==1.10
     # via
     #   trio
     #   trio-websocket
-async-timeout==4.0.2
-    # via redis
 attrs==21.4.0
     # via
     #   outcome
@@ -51,7 +49,7 @@ click-plugins==1.1.1
     # via celery
 click-repl==0.2.0
     # via celery
-cryptography==3.4.8
+cryptography==36.0.2
     # via
     #   -r requirements.in
     #   pyopenssl
@@ -77,7 +75,7 @@ flask-socketio==4.3.2
     # via -r requirements.in
 flask-sqlalchemy==2.5.1
     # via -r requirements.in
-gevent==1.4.0
+gevent==21.12.0
     # via
     #   -r requirements.in
     #   gevent-websocket
@@ -100,7 +98,7 @@ google-auth-oauthlib==0.5.1
     # via gspread
 googleapis-common-protos==1.56.0
     # via google-api-core
-greenlet==0.4.15
+greenlet==1.1.2
     # via
     #   -r requirements.in
     #   gevent
@@ -177,10 +175,8 @@ pycparser==2.21
     # via cffi
 pycryptodome==3.14.1
     # via -r requirements.in
-pyopenssl==21.0.0
-    # via
-    #   -r requirements.in
-    #   urllib3
+pyopenssl==22.0.0
+    # via urllib3
 pyparsing==3.0.7
     # via
     #   httplib2
@@ -207,8 +203,10 @@ pyyaml==6.0
     # via -r requirements.in
 rebulk==3.1.0
     # via guessit
-redis==4.2.0
-    # via celery
+redis==4.1.4
+    # via
+    #   -r requirements.in
+    #   celery
 requests==2.27.1
     # via
     #   discord-webhook
@@ -236,7 +234,6 @@ six==1.16.0
     #   google-auth
     #   google-auth-httplib2
     #   oauth2client
-    #   pyopenssl
     #   python-dateutil
     #   python-engineio
     #   python-socketio
@@ -260,8 +257,6 @@ trio-websocket==0.9.2
     # via selenium
 tvdb-api==3.1.0
     # via -r requirements.in
-typing-extensions==4.1.1
-    # via redis
 tzdata==2022.1
     # via pytz-deprecation-shim
 tzlocal==4.1
@@ -277,7 +272,7 @@ vine==5.0.0
     #   amqp
     #   celery
     #   kombu
-watchdog==2.1.6
+watchdog==2.1.7
     # via -r requirements.in
 wcwidth==0.2.5
     # via prompt-toolkit
@@ -293,6 +288,10 @@ zipp==3.7.0
     # via
     #   importlib-metadata
     #   importlib-resources
+zope-event==4.5.0
+    # via gevent
+zope-interface==5.4.0
+    # via gevent
 
 # The following packages are considered to be unsafe in a requirements file:
 # setuptools
