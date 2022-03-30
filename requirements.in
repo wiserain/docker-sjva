@@ -1,4 +1,4 @@
-flask<2.0.0
+flask
 flask-cors
 flask-login
 flask-markdown
@@ -17,7 +17,7 @@ markupsafe<2.1.0                # temporary fix
     # core
 psutil
 selenium
-celery[redis]<5.2.0
+celery[redis]
 redis<4.2.0
 gevent
 gevent-websocket
