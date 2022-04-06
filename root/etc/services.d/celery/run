@@ -2,9 +2,8 @@
 
 if [ ! "${USE_CELERY}" = "true" ]; then
     s6-svc -d .
+    exit 0
 fi
-
-cd "${HOME}"
 
 echo "*** starting celery with ${CELERY_WORKER_COUNT} workers"
 if [ "${PUID}" = "0" ] && [ "${PGID}" = "0" ]; then
@@ -17,5 +16,6 @@ fi
 [ "${CELERY_VERBOSE:-2}" -lt 1 ] && exec 2>/dev/null
 [ "${CELERY_VERBOSE:-2}" -lt 2 ] && exec 1>/dev/null
 IFS=" " read -r -a RUN_ARRAY <<< "$CELERY_OPTS"
-exec s6-setuidgid abc \
-    celery worker -c${CELERY_WORKER_COUNT} "${RUN_ARRAY[@]}"
+exec s6-notifyoncheck -d -n 5 -s 5000 -w 5000 \
+    s6-setuidgid abc \
+        celery --workdir=/app worker -c${CELERY_WORKER_COUNT} "${RUN_ARRAY[@]}"

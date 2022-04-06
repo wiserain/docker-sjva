@@ -2,6 +2,7 @@
 
 if [ ! "${USE_FILEBROWSER}" = "true" ]; then
     s6-svc -d .
+    exit 0
 fi
 
 echo "*** starting filebrowser"

@@ -1,22 +1,10 @@
 #!/usr/bin/with-contenv bash
 
-cd "${HOME}"
-
 if [ "${USE_CELERY}" = "true" ]; then
-    n=0
-    m=5
-    while true; do
-        sleep $(((n**2+1)*5))
-        s6-setuidgid abc \
-            celery status --timeout=5 >/dev/null 2>&1 && break
-        ((n++))
-        if [ "$n" -gt "$m" ]; then
-            s6-svscanctl -t /var/run/s6/services
-        else
-            printf "*** celery is not ready. Checking again in %2ds...(%d/%d)\n" $(((n**2+1)*5)) $n $m
-        fi
-    done
+    s6-svwait -U /var/run/s6/services/celery
 fi
+
+cd /app
 
 echo "*** starting SJVA..."
 s6-setuidgid abc \
@@ -36,6 +24,6 @@ else
     printf $(expr $SJVA_REPEAT_COUNT + 1) > /var/run/s6/container_environment/SJVA_REPEAT_COUNT
     /etc/cont-init.d/20-config
     if [ "${USE_CELERY}" = "true" ]; then
-        s6-svc -wr -r /var/run/s6/services/celery
+        s6-svc -wR -r /var/run/s6/services/celery
     fi
 fi
