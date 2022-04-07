@@ -19,20 +19,20 @@ git_pull() {
   fi
 }
 
-cd "${HOME}"
+cd /app
 
 # install or update
 if [ "$(git rev-parse --is-inside-work-tree 2>/dev/null)" != "true" ]; then
-  echo "*** installing SJVA to '${HOME}'..."
+  echo "*** installing SJVA to '/app'..."
   git init --quiet > /dev/null
   git remote add origin "https://github.com/soju6jan/SJVA3"
   git fetch --quiet --depth 1
   git checkout --quiet -f main
-elif [ ! -f "${HOME}/data/.noupdate" ]; then
-  git_pull "${HOME}"
+elif [ ! -f "/app/data/.noupdate" ]; then
+  git_pull /app
 fi
 
-plugin_root="${HOME}/data/custom"
+plugin_root="/app/data/custom"
 if [ "${PLUGIN_UPDATE_FROM_PYTHON}" = "false" ] && [ -d "${plugin_root}" ]; then
   prune_paths=$(find "${plugin_root}" -name .noupdate -printf "-path %h -o ")
   while read -r n; do
@@ -42,5 +42,5 @@ if [ "${PLUGIN_UPDATE_FROM_PYTHON}" = "false" ] && [ -d "${plugin_root}" ]; then
 fi
 
 # permissions
-find "${HOME}" \! \( -uid $(id -u abc) -gid $(id -g abc) \) -print0 | \
+find /app \! \( -uid $(id -u abc) -gid $(id -g abc) \) -print0 | \
     xargs -0 --no-run-if-empty chown -h abc:abc
