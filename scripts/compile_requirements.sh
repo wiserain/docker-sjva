@@ -16,5 +16,4 @@ fi
 
 cid=$(docker ps -a | grep $name | awk '{print $1}')
 docker run --rm -i -v ${PWD}/$1:/req $name \
-    bash -c "cd /req && pip-compile -U"
-sudo chown $(id -u):$(id -g) $1/requirements.*
+    bash -c "cd /req && pip-compile -U && chown $(id -u):$(id -g) requirements.*"
