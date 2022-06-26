@@ -15,6 +15,10 @@ RUN \
     apt-get install -y --no-install-recommends \
         `# python3` \
         python3 \
+        python3-cryptography \
+        python3-gevent \
+        python3-lxml \
+        python3-pillow \
         python3-pip \
         python3-wheel \
         `# core` \
@@ -59,14 +63,14 @@ FROM base AS builder
 
 ARG DEBIAN_FRONTEND="noninteractive"
 
-COPY requirements.txt /tmp/
+COPY stable/requirements.txt /tmp/
 
 RUN \
     echo "**** prepare apt-get ****" && \
     apt-get update -yqq
-RUN echo "**** install depencencies for psutil ****" && \
+RUN echo "**** install depencencies for cffi ****" && \
     apt-get install -y --no-install-recommends \
-        python3-dev gcc
+        python3-dev gcc libffi-dev
 RUN echo "**** install pip packages ****" && \
     python3 -m pip install --root=/bar -r /tmp/requirements.txt --no-warn-script-location
 
