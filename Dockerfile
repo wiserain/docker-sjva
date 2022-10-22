@@ -108,6 +108,13 @@ COPY --from=pip /bar/ /bar/
 # add local files
 COPY root/ /bar/
 
+RUN \
+    echo "**** permissions ****" && \
+    chmod a+x \
+        /bar/etc/cont-init.d/* \
+        /bar/etc/services.d/*/run \
+        /bar/etc/services.d/*/data/*
+
 # 
 # RELEASE
 # 
