@@ -2,7 +2,7 @@ flask<2.0.0
 flask-cors
 flask-login
 flask-markdown
-flask-sqlalchemy
+flask-sqlalchemy<3              # >=3 requires Flask>=2.2
 sqlalchemy<1.4.0                # for flask-sqlalchemy
 flask-socketio<5.0.0
 python-socketio<5.0.0
