@@ -1,0 +1,6 @@
+#!/usr/bin/with-contenv bash
+
+if [ ! "${USE_CELERY}" = "true" ]; then
+  rm -f /var/run/service/celery/notification-fd
+  rm -f /var/run/service/redis/notification-fd
+fi

@@ -1,0 +1,11 @@
+#!/usr/bin/with-contenv bash
+
+if [ ! "${USE_CELERY}" = "true" ]; then
+    s6-svc -d .
+    exit 0
+fi
+
+echo "*** starting redis-server@${REDIS_PORT}"
+exec s6-notifyoncheck -d -n 5 -w 5000 \
+    s6-setuidgid redis \
+        redis-server --port ${REDIS_PORT} --logfile /var/log/redis/redis-server.log > /dev/null 2>&1

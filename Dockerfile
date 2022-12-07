@@ -1,7 +1,8 @@
 ARG UBUNTU_VER=20.04
 
 FROM ghcr.io/by275/libtorrent:latest-ubuntu${UBUNTU_VER} AS libtorrent
-FROM ghcr.io/linuxserver/baseimage-ubuntu:focal AS base
+FROM ghcr.io/by275/base:ubuntu AS prebuilt
+FROM ghcr.io/by275/base:ubuntu${UBUNTU_VER} AS base
 
 ARG DEBIAN_FRONTEND="noninteractive"
 ARG APT_MIRROR="archive.ubuntu.com"
@@ -14,10 +15,6 @@ RUN \
     apt-get install -yqq --no-install-recommends \
         `# python3` \
         python3 \
-        python3-cryptography \
-        python3-gevent \
-        python3-lxml \
-        python3-pillow \
         python3-pip \
         python3-wheel \
         `# core` \
@@ -38,9 +35,6 @@ RUN \
     if [ ! -e /usr/bin/python ]; then ln -sf /usr/bin/python3 /usr/bin/python; fi && \
     if [ ! -e /usr/bin/pip ]; then ln -s pip3 /usr/bin/pip; fi && \
     sed -i 's/#user_allow_other/user_allow_other/' /etc/fuse.conf && \
-    echo "**** install built-in apps ****" && \
-    curl -fsSL https://raw.githubusercontent.com/filebrowser/get/master/get.sh | bash && \
-    curl -fsSL https://raw.githubusercontent.com/wiserain/rclone/mod/install.sh | bash && \
     echo "**** cleanup ****" && \
     rm -rf \
         /root/.cache \
@@ -61,11 +55,18 @@ COPY requirements.txt /tmp/
 RUN \
     echo "**** prepare apt-get ****" && \
     apt-get update -qq
-RUN echo "**** install depencencies for cffi ****" && \
+RUN echo "**** install depencencies for psutil ****" && \
     apt-get install -yqq --no-install-recommends \
-        python3-dev gcc libffi-dev
+        python3-dev gcc
 RUN echo "**** install pip packages ****" && \
     python3 -m pip install --root=/bar -r /tmp/requirements.txt --no-warn-script-location
+
+
+FROM base AS rclone
+
+RUN \
+    echo "**** install rclone mod ****" && \
+    curl -fsSL https://raw.githubusercontent.com/wiserain/rclone/mod/install.sh | bash
 
 
 FROM base AS docker-cli
@@ -90,14 +91,16 @@ RUN \
 # 
 FROM base AS collector
 
-# add s6-overlay cont-init.d
+# add s6 overlay
+COPY --from=prebuilt /s6/ /bar/
 ADD https://raw.githubusercontent.com/by275/docker-base/main/_/etc/cont-init.d/install-pkg /bar/etc/cont-init.d/30-install-pkg
 ADD https://raw.githubusercontent.com/by275/docker-base/main/_/etc/cont-init.d/wait-for-mnt /bar/etc/cont-init.d/40-wait-for-mnt
-ADD https://raw.githubusercontent.com/by275/docker-base/main/_/etc/cont-init.d/90-custom-folders /bar/etc/cont-init.d/90-custom-folders
-ADD https://raw.githubusercontent.com/by275/docker-base/main/_/etc/cont-init.d/99-custom-scripts /bar/etc/cont-init.d/99-custom-scripts
 
 # add libtorrent libs
 COPY --from=libtorrent /libtorrent-build/usr/lib/ /bar/usr/lib/
+
+# add rclone mod
+COPY --from=rclone /usr/bin/rclone /bar/usr/bin/
 
 # add docker-cli
 COPY --from=docker-cli /docker-cli/ /bar/
@@ -109,11 +112,29 @@ COPY --from=pip /bar/ /bar/
 COPY root/ /bar/
 
 RUN \
+    echo "**** directories ****" && \
+    mkdir -p \
+        /bar/app/data \
+        && \
     echo "**** permissions ****" && \
     chmod a+x \
+        /bar/usr/local/bin/* \
         /bar/etc/cont-init.d/* \
-        /bar/etc/services.d/*/run \
-        /bar/etc/services.d/*/data/*
+        /bar/etc/s6-overlay/s6-rc.d/*/run \
+        /bar/etc/s6-overlay/s6-rc.d/*/data/*
+
+RUN \
+    echo "**** s6: resolve dependencies ****" && \
+    for dir in /bar/etc/s6-overlay/s6-rc.d/*; do mkdir -p "$dir/dependencies.d"; done && \
+    for dir in /bar/etc/s6-overlay/s6-rc.d/*; do touch "$dir/dependencies.d/legacy-cont-init"; done && \
+    echo "**** s6: create a new bundled service ****" && \
+    mkdir -p /tmp/app/contents.d && \
+    for dir in /bar/etc/s6-overlay/s6-rc.d/*; do touch "/tmp/app/contents.d/$(basename "$dir")"; done && \
+    echo "bundle" > /tmp/app/type && \
+    mv /tmp/app /bar/etc/s6-overlay/s6-rc.d/app && \
+    echo "**** s6: deploy services ****" && \
+    rm /bar/package/admin/s6-overlay/etc/s6-rc/sources/top/contents.d/legacy-services && \
+    touch /bar/package/admin/s6-overlay/etc/s6-rc/sources/top/contents.d/app
 
 # 
 # RELEASE

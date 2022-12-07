@@ -3,6 +3,6 @@
 s6-setuidgid abc \
     celery --workdir=/app status --timeout=5 >/dev/null 2>&1 && exit 0
 
-echo "*** celery not ready. Retrying..."
+echo "*** celery is getting ready for service..."
 
 exit 1

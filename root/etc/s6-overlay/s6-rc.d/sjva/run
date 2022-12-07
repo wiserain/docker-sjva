@@ -1,7 +1,7 @@
 #!/usr/bin/with-contenv bash
 
 if [ "${USE_CELERY}" = "true" ]; then
-    s6-svwait -U /var/run/s6/services/celery
+    s6-svwait -U /var/run/service/celery
 fi
 
 cd /app
@@ -18,12 +18,12 @@ EXITCODE=$?
 echo "*** SJVA exited with code ${EXITCODE}"
 if [ "$EXITCODE" = "0" ]; then
     echo '*** terminating all services...'
-    s6-svscanctl -t /var/run/s6/services
+    s6-svscanctl -t /var/run/service
 else
     echo "*** restarting services..."
     printf $(expr $SJVA_REPEAT_COUNT + 1) > /var/run/s6/container_environment/SJVA_REPEAT_COUNT
     /etc/cont-init.d/20-config
     if [ "${USE_CELERY}" = "true" ]; then
-        s6-svc -wR -r /var/run/s6/services/celery
+        s6-svc -wR -r /var/run/service/celery
     fi
 fi

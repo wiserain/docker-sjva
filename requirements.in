@@ -3,29 +3,24 @@ flask-cors
 flask-login
 flask-markdown
 flask-sqlalchemy<3              # >=3 requires Flask>=2.2
-sqlalchemy<1.4.0                # for flask-sqlalchemy
 flask-socketio<5.0.0
 python-socketio<5.0.0
 python-engineio<4.0.0
 apscheduler
 discord-webhook
-markdown
 pycryptodome
-cryptography==2.8               # via apt-get
 pyyaml                          # plugin/fileprocess_ktv lib/system/logic_terminal.py
 markupsafe<2.1.0                # temporary fix
-pyopenssl==19.0.0               # via apt-get
-six==1.14.0                     # via apt-get
     # core
 psutil
 selenium
 celery[redis]<5.2.0
 redis<4.2.0
-gevent==1.4.0                   # via apt-get
+gevent
 gevent-websocket
-greenlet==0.4.15                # via apt-get
-pillow==7.0.0                   # via apt-get
-lxml==4.5.0                     # via apt-get
+greenlet
+pillow
+lxml
     # minimal
 guessit
     # plugin/fileprocess_movie
